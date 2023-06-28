@@ -91,7 +91,7 @@ export default function App() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} className="appbar">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -102,9 +102,7 @@ export default function App() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Persistent drawer
-          </Typography>
+         
         </Toolbar>
       </AppBar>
       <Drawer
@@ -120,7 +118,7 @@ export default function App() {
         variant="persistent"
         anchor="left"
         open={open}
-        
+   
       >
         <DrawerHeader>
           <img src='/images/logo.png' id="logo"/>
@@ -129,7 +127,7 @@ export default function App() {
             {theme.direction === 'ltr' ? <Box className="sidebar_arrow_block"><ChevronLeftIcon className='sidebar_arrow_right' /> </Box>: <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
-        <Divider />
+    
         <List className='sidebar_menu'>
         <ListItem  className='sidebar_menu_button' disablePadding>
               <ListItemButton className='sidebar_menu_button_info'>
