@@ -17,9 +17,15 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import GridViewIcon from '@mui/icons-material/GridView';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import './App.scss';
-const drawerWidth = 240;
+import { Button } from '@mui/material';
+const drawerWidth = 280;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
@@ -103,6 +109,7 @@ export default function App() {
       </AppBar>
       <Drawer
         sx={{
+         
           width: drawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
@@ -113,42 +120,98 @@ export default function App() {
         variant="persistent"
         anchor="left"
         open={open}
+        
       >
         <DrawerHeader>
-          <img src='/images/logo.png' />
+          <img src='/images/logo.png' id="logo"/>
 
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+          <IconButton onClick={handleDrawerClose} >
+            {theme.direction === 'ltr' ? <Box className="sidebar_arrow_block"><ChevronLeftIcon className='sidebar_arrow_right' /> </Box>: <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+        <List className='sidebar_menu'>
+        <ListItem  className='sidebar_menu_button' disablePadding>
+              <ListItemButton className='sidebar_menu_button_info'>
+                <ListItemIcon className='sidebar_menu_button_icon'>
+                   <ErrorOutlineIcon /> 
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary="Request" />
               </ListItemButton>
             </ListItem>
-          ))}
+
+            <ListItem  className='sidebar_menu_button' disablePadding>
+              <ListItemButton className='sidebar_menu_button_info'>
+                <ListItemIcon className='sidebar_menu_button_icon'>
+                   <NotificationsNoneIcon /> 
+                </ListItemIcon>
+                <ListItemText primary="Notification" />
+              </ListItemButton>
+            </ListItem>
         </List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+        <List className='sidebar_menu'>
+        <ListItem  className='sidebar_menu_button' disablePadding>
+              <ListItemButton className='sidebar_menu_button_info'>
+                <ListItemIcon className='sidebar_menu_button_icon'>
+                   <GridViewIcon /> 
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary="Dashboard" />
               </ListItemButton>
             </ListItem>
-          ))}
+
+            <ListItem  className='sidebar_menu_button' disablePadding>
+              <ListItemButton className='sidebar_menu_button_info'>
+                <ListItemIcon className='sidebar_menu_button_icon'>
+                   <LocalShippingIcon /> 
+                </ListItemIcon>
+                <ListItemText primary="Shipments" />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem  className='sidebar_menu_button' disablePadding>
+              <ListItemButton className='sidebar_menu_button_info'>
+                <ListItemIcon className='sidebar_menu_button_icon'>
+                   <InboxIcon /> 
+                </ListItemIcon>
+                <ListItemText primary="Parcels" />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem  className='sidebar_menu_button' disablePadding>
+              <ListItemButton className='sidebar_menu_button_info'>
+                <ListItemIcon className='sidebar_menu_button_icon'>
+                   <EmojiFlagsIcon /> 
+                </ListItemIcon>
+                <ListItemText primary="Branches" />
+              </ListItemButton>
+            </ListItem>
+
+
+            <ListItem  className='sidebar_menu_button' disablePadding>
+              <ListItemButton className='sidebar_menu_button_info'>
+                <ListItemIcon className='sidebar_menu_button_icon'>
+                   <PersonOutlineIcon  /> 
+                </ListItemIcon>
+                <ListItemText primary="Clients" />
+              </ListItemButton>
+            </ListItem>
+
+    
         </List>
+
+          <Box  className={"bottom_drawer"}>
+          <Button variant="contained" className={"create_shipment"}><span>+</span> Create shipment</Button>
+          
+          <Divider />
+            <Box className={'profile_block'}>
+            <div><img src='images/profile.jpg' className='profile_img'/></div>
+            <div className='profile_info'><p className='profile_name'>Darrell Steward</p><p className='profile_post'>Manager</p></div>
+            <div className='profile_menu'>...</div>
+            </Box>
+            </Box>
       </Drawer>
-      <Main open={open}>
+      <Main open={open} className={'main'}>
         <DrawerHeader />
         <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
