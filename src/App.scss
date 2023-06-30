@@ -1,5 +1,6 @@
 html, body {
     background-color: #F9F9FB;
+ 
 }
 
 
@@ -9,8 +10,14 @@ html, body {
     margin-top: 20px;
     border-radius: 10px;
     box-shadow: none  !important;
+    padding: 5px;
 }
 
+
+ .MuiDrawer-paper{
+
+    overflow: hidden  !important;
+}
 
 #logo {
     width: 30%;
@@ -108,7 +115,23 @@ html, body {
   
 }
 
-main {
-    background-color: #F9F9FB;
-    margin-right: 120px;
+.toolbar_select_search {
+    background-color: #fafafa;
+    border-radius: 10px;
+    margin-left: 10px;
+    height: 20px;
+}
+
+.selectsearch {
+    color: #b8b7b7;
+    position: relative;
+    top: 15.5px !important;
+    left: 8px;
+}
+
+.toolbar-date {
+    color: #000 !important;
+    margin-left: 30px;
+    margin-top: 15.5px !important;
+    font-weight: bolder
 }

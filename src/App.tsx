@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';;
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -24,8 +24,11 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import './App.scss';
-import { Button } from '@mui/material';
+import { Button,  FormControl,  InputLabel,  MenuItem,  Select,  SelectChangeEvent,  TextField, useTheme } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 const drawerWidth = 280;
+
+
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
@@ -79,7 +82,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function App() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-
+  const [city, setCity] = React.useState('barcelona');
+  const [departament, setDepartament] = React.useState('1');
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -88,24 +92,95 @@ export default function App() {
     setOpen(false);
   };
 
+
+
+
+  const handleChangeCity = (event: SelectChangeEvent) => {
+    setCity(event.target.value as string);
+  };
+
+
+  const handleChangeDepartament = (event: SelectChangeEvent) => {
+    setCity(event.target.value as string);
+  };
+
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', backgroundColor: '#F9F9FB' }}>
       <CssBaseline />
+          <SearchIcon />
       <AppBar position="fixed" open={open} className="appbar">
-        <Toolbar>
+        
+        <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}} >
+        <Box>
           <IconButton
-            color="inherit"
+            color="primary"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            sx={{  mr: 2, ...(open && { display: 'none' }) }}
           >
             <MenuIcon />
           </IconButton>
-         
+          <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+             <SearchIcon sx={{fontSize: 30, color: "#C1C1C1", position: 'relative', left: 60 }}/>
+      
+              <TextField 
+              
+              id="standard-search"
+              placeholder='Search by tracking number'
+              type="search"
+              variant="standard"
+              InputProps={{
+                disableUnderline: true,
+              }}
+              sx={{  width: 600, marginLeft: 10,  '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+              }}} />
+</Box>
+</Box>
+<Box>
+<Box sx={{display: 'flex', justifyContent: 'space-between', marginTop: -2}}>
+<Box  sx={{ minWidth: 120 }} className="toolbar_select_search">
+      <span className='selectsearch'>City</span>
+      <FormControl >
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={city}
+          onChange={handleChangeCity}
+          sx={{ fontWeight: 500, '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          }}}
+        >
+          <MenuItem value={'barcelona'}>Barcelona</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+    <Box  sx={{ minWidth: 120 }} className="toolbar_select_search">
+      <span className='selectsearch'>Departament</span>
+      <FormControl >
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={departament}
+          onChange={handleChangeDepartament}
+          sx={{ fontWeight: 500, '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          }}}
+        >
+          <MenuItem value={'1'}>1</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+    <Box className="toolbar-date">
+      Wed 15 Jun, 12:10:22
+    </Box>
+    </Box>
+    </Box>
         </Toolbar>
       </AppBar>
       <Drawer
+       
         sx={{
          
           width: drawerWidth,
