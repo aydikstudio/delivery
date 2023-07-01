@@ -24,10 +24,18 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import './App.scss';
-import { Button,  FormControl,  InputLabel,  MenuItem,  Select,  SelectChangeEvent,  TextField, useTheme } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import { Button,  Container,  FormControl,  InputLabel,  MenuItem,  Select,  SelectChangeEvent,  TextField, useTheme } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import Link from '@mui/material/Link';
+
+
+
+
 const drawerWidth = 280;
 
+
+const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -84,6 +92,9 @@ export default function App() {
   const [open, setOpen] = React.useState(true);
   const [city, setCity] = React.useState('barcelona');
   const [departament, setDepartament] = React.useState('1');
+  const [sortBy, setSortBy] =React.useState('delayed');
+  const [arrivalDate, setArrivalDate] =React.useState('15 Jun');
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -93,6 +104,13 @@ export default function App() {
   };
 
 
+  const handleChangeArrivalDate = (event: SelectChangeEvent) => {
+    setArrivalDate(event.target.value as string);
+  };
+
+  const handleChangeSortBy = (event: SelectChangeEvent) => {
+    setSortBy(event.target.value as string);
+  };
 
 
   const handleChangeCity = (event: SelectChangeEvent) => {
@@ -101,7 +119,7 @@ export default function App() {
 
 
   const handleChangeDepartament = (event: SelectChangeEvent) => {
-    setCity(event.target.value as string);
+    setDepartament(event.target.value as string);
   };
 
   return (
@@ -144,8 +162,7 @@ export default function App() {
       <span className='selectsearch'>City</span>
       <FormControl >
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+
           value={city}
           onChange={handleChangeCity}
           sx={{ fontWeight: 500, '& .MuiOutlinedInput-notchedOutline': {
@@ -160,8 +177,7 @@ export default function App() {
       <span className='selectsearch'>Departament</span>
       <FormControl >
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+
           value={departament}
           onChange={handleChangeDepartament}
           sx={{ fontWeight: 500, '& .MuiOutlinedInput-notchedOutline': {
@@ -180,9 +196,8 @@ export default function App() {
         </Toolbar>
       </AppBar>
       <Drawer
-       
         sx={{
-         
+       
           width: drawerWidth,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
@@ -219,7 +234,11 @@ export default function App() {
                    <NotificationsNoneIcon /> 
                 </ListItemIcon>
                 <ListItemText primary="Notification" />
+                <Box className="count_notification">
+                10
+              </Box>
               </ListItemButton>
+
             </ListItem>
         </List>
         <Divider />
@@ -286,33 +305,64 @@ export default function App() {
       </Drawer>
       <Main open={open} className={'main'}>
         <DrawerHeader />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        <Grid container >
+        <Grid xs={6} sx={{display: 'flex', justifyContent: 'start'}}>
+         <h2>Shipments</h2>
+         <Box
+      sx={{
+        marginTop: 1,
+        marginLeft: 10,
+        typography: 'body1',
+        '& > :not(style) + :not(style)': {
+          ml: 2,
+        },
+      }}
+      onClick={preventDefault}
+    >
+      <Link href="#" className="shipments_menu_active">Arrival(20)</Link>
+      <Link href="#"  className="shipments_menu">
+         Available(5)
+      </Link>
+      <Link href="#"  className="shipments_menu">
+      Departure(36)
+      </Link>
+    </Box>
+        </Grid>
+        <Grid xs={6} sx={{textAlign: 'right'}}>
+        <Box sx={{display: 'flex', justifyContent: 'end', marginTop: -2}}>
+<Box  sx={{ minWidth: 120 }} className="toolbar_select_shipments">
+      <span className='selectsearch'>Sort By</span>
+      <FormControl >
+        <Select
+
+          value={sortBy}
+          onChange={handleChangeSortBy}
+          sx={{ fontWeight: 500, '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          }}}
+        >
+          <MenuItem value={'delayed'}>Delayed</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+    <Box  sx={{ minWidth: 120 }} className="toolbar_select_shipments">
+      <span className='selectsearch'>Arrival date</span>
+      <FormControl >
+        <Select
+
+          value={arrivalDate}
+          onChange={handleChangeArrivalDate}
+          sx={{ fontWeight: 500, '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          }}}
+        >
+          <MenuItem value={'15 Jun'}>15 Jun</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
+    </Box>
+        </Grid>
+      </Grid>
       </Main>
     </Box>
   );
