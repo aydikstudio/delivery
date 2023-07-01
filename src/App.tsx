@@ -28,7 +28,13 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { Button,  Container,  FormControl,  InputLabel,  MenuItem,  Select,  SelectChangeEvent,  TextField, useTheme } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import Link from '@mui/material/Link';
-
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 
 
@@ -363,6 +369,47 @@ export default function App() {
     </Box>
         </Grid>
       </Grid>
+
+      <TableContainer sx={{mt: 10}} component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Destination</TableCell>
+            <TableCell align="right">Shipment number</TableCell>
+            <TableCell align="right">Truck</TableCell>
+            <TableCell align="right">Total weight, kg</TableCell>
+            <TableCell align="right">Status</TableCell>
+            <TableCell align="right">Departure date</TableCell>
+            <TableCell align="right">Arrival date</TableCell>
+            <TableCell align="right">Time delay</TableCell>
+          </TableRow>
+        </TableHead>
+        </Table>
+        </TableContainer>
+
+        <TableContainer sx={{mt: 4}} component={Paper}>
+        <Table sx={{ minWidth: 650}} aria-label="simple table">
+        <TableBody >
+        
+            <TableRow
+              key='2'
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+              Valencia-Barcelona
+              </TableCell>
+              <TableCell align="right">B323242</TableCell>
+              <TableCell align="right">Iveco 80E18</TableCell>
+              <TableCell align="right">800</TableCell>
+              <TableCell align="right"><span className="delayed">Delayed</span></TableCell>
+              <TableCell align="right">10 Jun, 8:00 AM</TableCell>
+              <TableCell align="right">15 Jun, 8:00 AM</TableCell>
+              <TableCell align="right">5:05 h</TableCell>
+            </TableRow>
+
+        </TableBody>
+      </Table>
+    </TableContainer>
       </Main>
     </Box>
   );
