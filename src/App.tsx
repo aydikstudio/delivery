@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
+import { BrowserRouter as Router, Routes, Route,  Link } from "react-router-dom";
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -27,14 +27,9 @@ import './App.scss';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Button,  Container,  FormControl,  InputLabel,  MenuItem,  Select,  SelectChangeEvent,  TextField, useTheme } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import Link from '@mui/material/Link';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Arrival from './pages/arrivial';
+import Available from './pages/available';
+
 
 
 
@@ -95,6 +90,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function App() {
   const theme = useTheme();
+  const [menuActive, setMenuActive] = React.useState('arrival');
   const [open, setOpen] = React.useState(true);
   const [city, setCity] = React.useState('barcelona');
   const [departament, setDepartament] = React.useState('1');
@@ -325,11 +321,11 @@ export default function App() {
       }}
       onClick={preventDefault}
     >
-      <Link href="#" className="shipments_menu_active">Arrival(20)</Link>
-      <Link href="#"  className="shipments_menu">
+      <Link to="/arrival" className={menuActive == 'arrival' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('arrival')}>Arrival(20)</Link>
+      <Link to="/available" className={menuActive == 'available' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('available')}>
          Available(5)
       </Link>
-      <Link href="#"  className="shipments_menu">
+      <Link to="#"  className={menuActive == 'departure' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('departure')}>
       Departure(36)
       </Link>
     </Box>
@@ -370,46 +366,13 @@ export default function App() {
         </Grid>
       </Grid>
 
-      <TableContainer sx={{mt: 10}} component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Destination</TableCell>
-            <TableCell align="right">Shipment number</TableCell>
-            <TableCell align="right">Truck</TableCell>
-            <TableCell align="right">Total weight, kg</TableCell>
-            <TableCell align="right">Status</TableCell>
-            <TableCell align="right">Departure date</TableCell>
-            <TableCell align="right">Arrival date</TableCell>
-            <TableCell align="right">Time delay</TableCell>
-          </TableRow>
-        </TableHead>
-        </Table>
-        </TableContainer>
-
-        <TableContainer sx={{mt: 4}} component={Paper}>
-        <Table sx={{ minWidth: 650}} aria-label="simple table">
-        <TableBody >
-        
-            <TableRow
-              key='2'
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-              Valencia-Barcelona
-              </TableCell>
-              <TableCell align="right">B323242</TableCell>
-              <TableCell align="right">Iveco 80E18</TableCell>
-              <TableCell align="right">800</TableCell>
-              <TableCell align="right"><span className="delayed">Delayed</span></TableCell>
-              <TableCell align="right">10 Jun, 8:00 AM</TableCell>
-              <TableCell align="right">15 Jun, 8:00 AM</TableCell>
-              <TableCell align="right">5:05 h</TableCell>
-            </TableRow>
-
-        </TableBody>
-      </Table>
-    </TableContainer>
+          <Box sx={{mt: 10}}>
+      <Routes>
+        <Route path="/" element={<Arrival />} />
+        <Route path="/arrival" element={<Arrival />} />
+        <Route path="/available" element={<Available />} />
+      </Routes>
+      </Box>
       </Main>
     </Box>
   );

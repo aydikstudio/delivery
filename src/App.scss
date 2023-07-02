@@ -162,6 +162,7 @@ html, body {
 h2 {
     padding: 0;
     margin: 0;
+    // background-color: #f05252;
 }
 
 
@@ -186,11 +187,4 @@ h2 {
 .shipments_menu_active {
     background-color: #8A71D9; 
     color: #fff !important;
-}
-
-.delayed {
-    background-color: #fae1e1;
-    color: #ff0000;
-    padding: 4px 10px;
-    border-radius: 5px;
 }
