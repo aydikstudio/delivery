@@ -48,13 +48,13 @@ function Sidebar() {
             component:  <GridViewIcon />  ,
             status: 'none',
             name: "Dashboard",
-            link: '/dashboardn'
+            link: '/dashboard'
         },
         {
             component: <LocalShippingIcon /> ,
             status: 'active',
             name: 'Shipments',
-            link: '/shipments'
+            link: '/shipments/arrival'
         },
 
         {
@@ -87,7 +87,7 @@ function Sidebar() {
     const theme = useTheme();
     const dispatch = useDispatch();
     const open = useSelector((state : any) => state.open)
-    const [menuSidebatActive, setMenuSidebatActive] =React.useState('Shipments');
+
     const DrawerHeader = styled('div')(({ theme }) => ({
         display: 'flex',
         alignItems: 'center',

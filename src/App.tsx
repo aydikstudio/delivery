@@ -72,8 +72,8 @@ export default function App() {
          
       <Routes>
         <Route path="/" element={<Arrival />} />
-        <Route path="/arrival" element={<Arrival />} />
-        <Route path="/available" element={<Available />} />
+        <Route path="/shipments/arrival" element={<Arrival />} />
+        <Route path="/shipments/available" element={<Available />} />
       </Routes>
       
       </Main>

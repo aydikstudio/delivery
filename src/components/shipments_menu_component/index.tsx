@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Box, FormControl, Grid, MenuItem, Select,  SelectChangeEvent } from "@mui/material";
 import { Link } from "react-router-dom";
+import { currentLinkDivived } from '../../utils';
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
@@ -8,6 +9,7 @@ function ShipmentsMenuComponent() {
 
     const [menuActive, setMenuActive] = React.useState('arrival');
     const pathname = window.location.pathname;
+
  
     const [sortBy, setSortBy] =React.useState('delayed');
     const [arrivalDate, setArrivalDate] =React.useState('15 Jun');
@@ -39,11 +41,11 @@ function ShipmentsMenuComponent() {
   }}
   onClick={preventDefault}
 >
-  <Link to="/arrival" className={pathname == '/arrival' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('arrival')}>Arrival(20)</Link>
-  <Link to="/available" className={pathname == '/available' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('available')}>
+  <Link to="/shipments/arrival" className={pathname == '/shipments/arrival' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('arrival')}>Arrival(20)</Link>
+  <Link to="/shipments/available" className={pathname == '/shipments/available' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('available')}>
      Available(5)
   </Link>
-  <Link to="/departure"  className={pathname == '/departure' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('departure')}>
+  <Link to="/shipments/departure"  className={pathname == '/shipments/departure' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('departure')}>
   Departure(36)
   </Link>
 </Box>
