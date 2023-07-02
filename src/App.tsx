@@ -29,8 +29,12 @@ import { Button,  Container,  FormControl,  InputLabel,  MenuItem,  Select,  Sel
 import SearchIcon from '@mui/icons-material/Search';
 import Arrival from './pages/arrivial';
 import Available from './pages/available';
+import {useSelector, useDispatch} from 'react-redux';
 
-
+export interface ISidebarStatus {
+ 
+  open: boolean;
+}    
 
 
 const drawerWidth = 280;
@@ -89,21 +93,17 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function App() {
+  const dispatch = useDispatch();
+  const open = useSelector((state:any) => state.open)
   const theme = useTheme();
   const [menuActive, setMenuActive] = React.useState('arrival');
-  const [open, setOpen] = React.useState(true);
+  // const [open, setOpen] = React.useState(true);
   const [city, setCity] = React.useState('barcelona');
   const [departament, setDepartament] = React.useState('1');
   const [sortBy, setSortBy] =React.useState('delayed');
   const [arrivalDate, setArrivalDate] =React.useState('15 Jun');
+  const [menuSidebatActive, setMenuSidebatActive] =React.useState('Shipments');
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
 
   const handleChangeArrivalDate = (event: SelectChangeEvent) => {
@@ -127,20 +127,20 @@ export default function App() {
   return (
     <Box sx={{ display: 'flex', backgroundColor: '#F9F9FB' }}>
       <CssBaseline />
-          <SearchIcon />
-      <AppBar position="fixed" open={open} className="appbar">
-        
-        <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}} >
-        <Box>
-          <IconButton
+      <IconButton
             color="primary"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            onClick={() => dispatch({type: 'switchsidebar'})}
             edge="start"
-            sx={{  mr: 2, ...(open && { display: 'none' }) }}
+            sx={{ position: 'absolute', top: 0, left: 20, mr: 2, ...(open && { display: 'none' }) }}
           >
-            <MenuIcon />
+            <MenuIcon sx={{fontSize: 40}}/>
           </IconButton>
+      <AppBar position="fixed" open={open} className="appbar">
+  
+        <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}} >
+        <Box>
+       
           <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
              <SearchIcon sx={{fontSize: 30, color: "#C1C1C1", position: 'relative', left: 60 }}/>
       
@@ -215,7 +215,7 @@ export default function App() {
         <DrawerHeader>
           <img src='/images/logo.png' id="logo"/>
 
-          <IconButton onClick={handleDrawerClose} >
+          <IconButton onClick={() => dispatch({type: 'switchsidebar'})} >
             {theme.direction === 'ltr' ? <Box className="sidebar_arrow_block"><ChevronLeftIcon className='sidebar_arrow_right' /> </Box>: <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
@@ -254,7 +254,8 @@ export default function App() {
               </ListItemButton>
             </ListItem>
 
-            <ListItem  className='sidebar_menu_button' disablePadding>
+          <Link to="/" style={{textDecoration: 'none', color: '#7C57E0'}}>
+            <ListItem  className={menuSidebatActive == 'Shipments' ? 'sidebar_menu_button_active' : 'sidebar_menu_button'} onClick={() => setMenuSidebatActive('Shipments')} disablePadding>
               <ListItemButton className='sidebar_menu_button_info'>
                 <ListItemIcon className='sidebar_menu_button_icon'>
                    <LocalShippingIcon /> 
@@ -262,7 +263,7 @@ export default function App() {
                 <ListItemText primary="Shipments" />
               </ListItemButton>
             </ListItem>
-
+</Link>
             <ListItem  className='sidebar_menu_button' disablePadding>
               <ListItemButton className='sidebar_menu_button_info'>
                 <ListItemIcon className='sidebar_menu_button_icon'>

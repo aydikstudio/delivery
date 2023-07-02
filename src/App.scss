@@ -37,12 +37,13 @@ html, body {
 }
 
 .sidebar_menu {
-    
+ 
 
-    .sidebar_menu_button:hover {
+    .sidebar_menu_button_active, .sidebar_menu_button:hover {
         opacity: 0.9;
         background-color: #FAF9FC !important;
         border-left: 3px #7C57E0 solid;
+        color: #7C57E0;
      .sidebar_menu_button_info {
         margin-left: -3px;
      }
