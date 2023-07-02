@@ -10,7 +10,6 @@ html, body {
     margin-top: 20px;
     border-radius: 10px;
     box-shadow: none  !important;
-    padding: 5px;
 }
 
 
@@ -37,7 +36,9 @@ html, body {
 }
 
 .sidebar_menu {
- 
+    a {
+        color: rgb(107, 106, 106);
+    }
 
     .sidebar_menu_button_active, .sidebar_menu_button:hover {
         opacity: 0.9;
@@ -188,4 +189,10 @@ h2 {
 .shipments_menu_active {
     background-color: #8A71D9; 
     color: #fff !important;
+}
+
+
+.listitemlink {
+    text-decoration: 'none' ;
+    color: '#7C57E0';
 }

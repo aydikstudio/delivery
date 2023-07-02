@@ -6,10 +6,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import './index.scss';
+import { Box } from '@mui/material';
+import ShipmentsMenuComponent from '../../components/shipments_menu_component';
 
 function Arrival() {
     return (
-       <>  
+       <>
+<ShipmentsMenuComponent />
+<Box sx={{mt: 10}}>
       <TableContainer sx={{ boxShadow: 'none'}} component={Paper}>
       <Table sx={{ minWidth: 650 }} >
         <TableHead>
@@ -49,6 +53,7 @@ function Arrival() {
         </TableBody>
       </Table>
     </TableContainer>
+    </Box>
     </>   
     )
 }
