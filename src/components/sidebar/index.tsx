@@ -7,81 +7,17 @@ import { Button } from '@mui/material';
 import List from '@mui/material/List'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import GridViewIcon from '@mui/icons-material/GridView';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags';
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+
 import {drawerWidth, ListItemTemplate} from '../../utils';
 import {useSelector, useDispatch} from 'react-redux';
-import { Link } from "react-router-dom";
+  
 
 
 function Sidebar() {
 
-    const sidebarMenuHeader = [
-        {
-            component:  <ErrorOutlineIcon />,
-            status: 'none',
-            name: "Request",
-            link: '/request'
-        },
-        {
-            component: <NotificationsNoneIcon /> ,
-            status: 'none',
-            name: "Notification",
-            link: '/notification'
-        },
-
-    ];
-
-
-
-    const sidebarMenu = [
-        {
-            component:  <GridViewIcon />  ,
-            status: 'none',
-            name: "Dashboard",
-            link: '/dashboard'
-        },
-        {
-            component: <LocalShippingIcon /> ,
-            status: 'active',
-            name: 'Shipments',
-            link: '/shipments/arrival'
-        },
-
-        {
-            component:  <InboxIcon />  ,
-            status: 'none',
-            name: "Parcels",
-            link: '/parcels'
-        },
-
-        {
-            component:  <EmojiFlagsIcon />  ,
-            status: 'none',
-            name: "Branches",
-            link: '/branches'
-        },
-
-        {
-            component:  <PersonOutlineIcon  /> ,
-            status: 'none',
-            name: "Clients",
-            link: '/clients'
-        },
-    ];
+  
 
    
-
-
 
 
     const theme = useTheme();
@@ -132,21 +68,16 @@ function Sidebar() {
         </DrawerHeader>
     
         <List className='sidebar_menu'>
-        {sidebarMenuHeader.map((item) => {
-            return (
-                ListItemTemplate(item.component, item.status, item.name, item.link)
-            )
-        })}
+     
+                {ListItemTemplate('header')}
+         
         </List>
         <Divider />
         <List className='sidebar_menu'>
 
-        {sidebarMenu.map((item) => {
-            return (
-                ListItemTemplate(item.component, item.status, item.name, item.link)
-            )
-        })}
-
+      
+                {ListItemTemplate('noheader')}
+         
       
     
         </List>

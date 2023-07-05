@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, FormControl, Grid, MenuItem, Select,  SelectChangeEvent } from "@mui/material";
 import { Link } from "react-router-dom";
-import { currentLinkDivived } from '../../utils';
+
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
@@ -41,7 +41,7 @@ function ShipmentsMenuComponent() {
   }}
   onClick={preventDefault}
 >
-  <Link to="/shipments/arrival" className={pathname == '/shipments/arrival' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('arrival')}>Arrival(20)</Link>
+  <Link to="/shipments/arrival" className={pathname == '/shipments/arrival' || pathname == '/' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('arrival')}>Arrival(20)</Link>
   <Link to="/shipments/available" className={pathname == '/shipments/available' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('available')}>
      Available(5)
   </Link>
