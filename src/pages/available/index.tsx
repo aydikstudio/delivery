@@ -5,6 +5,7 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import AvailableTransportCard from '../../components/available_transport_card';
 import ShipmentsMenuComponent from '../../components/shipments_menu_component';
+import { shipments } from '../../data/data';
 
 
 function Available() {
@@ -14,10 +15,14 @@ function Available() {
 
         <Box sx={{ flexGrow: 1, mt: 10 }}>
         <Grid container spacing={2}>
-          <Grid xs={6}>
-            <AvailableTransportCard />
-          </Grid>
-      
+        {shipments.length > 0 ? shipments.filter((item) => item.status_main == 'available').map((item, index) => (
+                   <Grid xs={6} key={index}>
+                   <AvailableTransportCard item={item}/>
+                 </Grid>
+             
+            )): "Нет данных"}
+          
+        
         </Grid>
       </Box>
       </>

@@ -15,6 +15,7 @@ import { drawerWidth } from './utils';
 import {useSelector} from 'react-redux';
 import ToolbarBlock from './components/toolbar';
 import Sidebar from './components/sidebar';
+import Departure from './pages/departure';
 
 
 
@@ -74,6 +75,7 @@ export default function App() {
         <Route path="/" element={<Arrival />} />
         <Route path="/shipments/arrival" element={<Arrival />} />
         <Route path="/shipments/available" element={<Available />} />
+        <Route path="/shipments/departure" element={<Departure />} />
       </Routes>
       
       </Main>

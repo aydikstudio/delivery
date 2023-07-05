@@ -87,7 +87,7 @@ function Sidebar() {
           
           <Divider />
             <Box className={'profile_block'}>
-            <div><img src='images/profile.jpg' className='profile_img'/></div>
+            <div><img src='/images/profile.jpg' className='profile_img'/></div>
             <div className='profile_info'><p className='profile_name'>Darrell Steward</p><p className='profile_post'>Manager</p></div>
             <div className='profile_menu'>...</div>
             </Box>

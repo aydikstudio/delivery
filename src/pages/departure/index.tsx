@@ -5,12 +5,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import './index.scss';
+
 import { Box } from '@mui/material';
 import ShipmentsMenuComponent from '../../components/shipments_menu_component';
 import { shipments } from '../../data/data';
 
-function Arrival() {
+function Departure() {
     return (
        <>
 <ShipmentsMenuComponent />
@@ -21,12 +21,9 @@ function Arrival() {
           <TableRow>
             <TableCell >Destination</TableCell>
             <TableCell align='center'>Shipment number</TableCell>
-            <TableCell >Truck</TableCell>
-            <TableCell >Total weight, kg</TableCell>
-            <TableCell >Status</TableCell>
-            <TableCell >Departure date</TableCell>
-            <TableCell>Arrival date</TableCell>
-            <TableCell align='center'>Time delay</TableCell>
+            <TableCell align='center'>Truck</TableCell>
+            <TableCell align='center'>Total weight, kg</TableCell>
+            <TableCell align='center'>Departure date</TableCell>
           </TableRow>
         </TableHead>
         </Table>
@@ -34,30 +31,21 @@ function Arrival() {
 
         <TableContainer sx={{mt: 2, boxShadow: 'none'}} component={Paper}>
         <Table sx={{ minWidth: 650}} aria-label="simple table">
-
         <TableBody>
-        
-        {shipments.length > 0 ? shipments.filter((item) => item.status_main == 'arrival').map((item, index) => (
-                <TableRow
+            {shipments.length > 0 ? shipments.filter((item) => item.status_main == 'departure').map((item, index) => (
+                  <TableRow
                   key={index}
-                >
-                  <TableCell>
-                  {item.destination}
-                  </TableCell>
-                  <TableCell >{item.number}</TableCell>
-                  <TableCell>{item.truck}</TableCell>
-                  <TableCell>{item.weight}</TableCell>
-                  <TableCell align='center'><span className="delayed">{item.status}</span></TableCell>
-                  <TableCell>{item.departure_date}</TableCell>
-                  <TableCell>{item.arrival_date}</TableCell>
-                  <TableCell >{item.time_delay}</TableCell>
-                </TableRow> 
+                  >
+                    <TableCell>
+                    {item.destination}
+                    </TableCell>
+                    <TableCell >{item.number}</TableCell>
+                    <TableCell>{item.truck}</TableCell>
+                    <TableCell>{item.weight}</TableCell>
+                    <TableCell align='center'>{item.departure_date}</TableCell>
+                  </TableRow>    
             )): "Нет данных"}
           
-
-          
-
-            
 
         </TableBody>
       </Table>
@@ -68,4 +56,4 @@ function Arrival() {
 }
 
 
-export default Arrival;
+export default Departure;

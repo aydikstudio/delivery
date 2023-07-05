@@ -9,19 +9,19 @@ import Typography from '@mui/material/Typography';
 
 
 
-function AvailableTransportCard() {
-    const theme = useTheme();
-
+function AvailableTransportCard(item1: any) {
+        const item = item1.item;
     return (
       <Card sx={{padding: 3}}>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+        {item && (
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
      
             <Typography component="div" variant="h4">
-             Barcelona-Valencia <span style={{fontSize: 16, color: '#b3b3b3'}}>15 Jun, 2:00 pm</span>
+            {item.destination} <span style={{fontSize: 16, color: '#b3b3b3'}}> {item.departure_date}</span>
             </Typography>
             <Typography variant="h3" component="div" sx={{color: '#f05252'}}>
-            90%
+            {item.busy_weigh/item.weight*100}%
             </Typography>
            
           
@@ -33,7 +33,7 @@ function AvailableTransportCard() {
             Available, kg
             </Typography>
             <Typography component="div"  style={{fontSize: 20, color: '#b3b3b3'}}>
-            <span style={{color: '#000'}}>20</span>/200
+            <span style={{color: '#000'}}>{item.busy_weigh}</span>/{item.weight}
             </Typography>         
             </Box>
             <Box mt={3}>
@@ -41,7 +41,7 @@ function AvailableTransportCard() {
             Shipment number
             </Typography>
             <Typography component="div"  style={{fontSize: 20, color: '#b3b3b3'}}>
-            <span style={{color: '#000'}}>V3322423</span>
+            <span style={{color: '#000'}}>{item.number}</span>
             </Typography>         
             </Box>
             <Box mt={3}>
@@ -49,21 +49,22 @@ function AvailableTransportCard() {
             Truck
             </Typography>
             <Typography component="div"  style={{fontSize: 20, color: '#b3b3b3'}}>
-            <span style={{color: '#000'}}>Iveco 232</span>
+            <span style={{color: '#000'}}>{item.truck}</span>
             </Typography>         
             </Box>
           </Box>
           <Box>
           <CardMedia
           component="img"
-          sx={{ width: 450, marginTop: 2 }}
-          image="./images/track.png"
-          alt="Live from space album cover"
+          sx={{ width: '100%', marginTop: 2 }}
+          image="/images/track.png"
         />
           </Box>
           </Box>
           
         </Box>
+        )}
+        
    
       </Card>
     )

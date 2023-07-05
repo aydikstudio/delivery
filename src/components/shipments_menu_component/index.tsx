@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Box, FormControl, Grid, MenuItem, Select,  SelectChangeEvent } from "@mui/material";
 import { Link } from "react-router-dom";
+import { shipments } from '../../data/data';
 
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
@@ -22,6 +23,10 @@ function ShipmentsMenuComponent() {
         setSortBy(event.target.value as string);
       };
     
+
+      const getCountArray = (text: string):number => {
+        return shipments.filter((item) => item.status_main == text).length;
+      }
   
 
     return (
@@ -41,12 +46,12 @@ function ShipmentsMenuComponent() {
   }}
   onClick={preventDefault}
 >
-  <Link to="/shipments/arrival" className={pathname == '/shipments/arrival' || pathname == '/' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('arrival')}>Arrival(20)</Link>
+  <Link to="/shipments/arrival" className={pathname == '/shipments/arrival' || pathname == '/' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('arrival')}>Arrival({getCountArray('arrival')})</Link>
   <Link to="/shipments/available" className={pathname == '/shipments/available' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('available')}>
-     Available(5)
+     Available({getCountArray('available')})
   </Link>
   <Link to="/shipments/departure"  className={pathname == '/shipments/departure' ? 'shipments_menu_active' : 'shipments_menu'}  onClick={() => setMenuActive('departure')}>
-  Departure(36)
+  Departure({getCountArray('departure')})
   </Link>
 </Box>
     </Grid>
