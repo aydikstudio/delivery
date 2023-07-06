@@ -9,10 +9,11 @@ import {
     styled,
     TextField
 } from '@mui/material';
-import {drawerWidth} from '../../utils';
+import {drawerWidth, navigateSearch} from '../../utils';
 import {useSelector, useDispatch} from 'react-redux';
 import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from "react-router-dom"
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
@@ -48,11 +49,14 @@ const AppBar = styled(MuiAppBar, {
 
 function ToolbarBlock() {
 
+    
     const open = useSelector((state : any) => state.open)
-
+    const [search, setSearch] =React.useState(navigateSearch());
+    const shipments = useSelector((state : any) => state.shipments);
+    const dispatch = useDispatch();
     const [city, setCity] = React.useState('barcelona');
     const [departament, setDepartament] = React.useState('1');
-
+    const navigate = useNavigate();
 
     const handleChangeCity = (event : SelectChangeEvent) => {
         setCity(event.target.value as string);
@@ -61,6 +65,29 @@ function ToolbarBlock() {
 
     const handleChangeDepartament = (event : SelectChangeEvent) => {
         setDepartament(event.target.value as string);
+    };
+
+    const handleChangeSearch = (text: string) => {
+
+        setSearch(text.toUpperCase());
+    };
+
+    const submitSearch = () => {
+        let shipment = shipments.find((item: any) => item.number == search);
+       
+        if(shipment) {
+            if(shipment.status_main == 'arrival') {
+                navigate("/shipments/arrival?search="+search);
+            } else if (shipment.status_main == 'departure') {
+                navigate("/shipments/departure?search"+search);
+            } else if(shipment.status_main == 'available') {
+                navigate("/shipments/available?search"+search);
+            } 
+        } else {
+          
+   
+            alert("Не найдет трэк номер");
+        }
     };
 
     return (
@@ -83,16 +110,20 @@ function ToolbarBlock() {
                                 justifyContent: 'space-between'
                             }
                         }>
-                            <SearchIcon sx={
+                        
+                      
+                            <SearchIcon  onClick={() => submitSearch()} sx={
                                 {
                                     fontSize: 30,
-                                    color: "#C1C1C1",
+                                    color: search.length > 0 ? "#fff" :"#C1C1C1",
                                     position: 'relative',
-                                    left: 60
+                                    left: 60,
+                                    cursor: 'pointer',
+                                    background: search.length > 0 ? "#7C57E0" :"#fff",
                                 }
                             }/>
 
-                            <TextField id="standard-search" placeholder='Search by tracking number' type="search" variant="standard"
+                            <TextField onChange={(e) =>  handleChangeSearch(e.target.value)} id="standard-search" value={search} placeholder='Search by tracking number' type="search" variant="standard"
                                 InputProps={
                                     {disableUnderline: true}
                                 }

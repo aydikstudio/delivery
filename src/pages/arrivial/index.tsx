@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,9 +9,16 @@ import Paper from '@mui/material/Paper';
 import './index.scss';
 import { Box } from '@mui/material';
 import ShipmentsMenuComponent from '../../components/shipments_menu_component';
-import { shipments } from '../../data/data';
+import { useSelector } from 'react-redux';
+import { navigateSearch } from '../../utils';
+
 
 function Arrival() {
+ 
+
+  const shipments = useSelector((state : any) => state.shipments)
+  const search = navigateSearch() || '';
+
     return (
        <>
 <ShipmentsMenuComponent />
@@ -37,7 +45,7 @@ function Arrival() {
 
         <TableBody>
         
-        {shipments.length > 0 ? shipments.filter((item) => item.status_main == 'arrival').map((item, index) => (
+        {shipments.length > 0 ? shipments.filter((item: any) => item.status_main == 'arrival' && (search.length > 0 ? item.number == search : item.number )).map((item: any, index: number) => (
                 <TableRow
                   key={index}
                 >

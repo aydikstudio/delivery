@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { Box, FormControl, Grid, MenuItem, Select,  SelectChangeEvent } from "@mui/material";
 import { Link } from "react-router-dom";
-import { shipments } from '../../data/data';
+import { useSelector } from 'react-redux';
+
 
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
 function ShipmentsMenuComponent() {
 
+  const shipments = useSelector((state : any) => state.shipments)
     const [menuActive, setMenuActive] = React.useState('arrival');
     const pathname = window.location.pathname;
 
@@ -25,7 +27,7 @@ function ShipmentsMenuComponent() {
     
 
       const getCountArray = (text: string):number => {
-        return shipments.filter((item) => item.status_main == text).length;
+        return shipments.filter((item: any) => item.status_main == text).length;
       }
   
 

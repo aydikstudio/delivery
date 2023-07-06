@@ -31,6 +31,17 @@ export const drawerWidth = 280;
 // }
 
 
+export function navigateSearch() {
+  let search_text = ''
+  if( window.location.href.indexOf("?") >= 0) {
+    const search_path = window.location.href.split('?').filter(item => item != '')[1]
+    search_text = (search_path.split('=')[0] == "search" ? search_path.split('=')[1] : '')
+  }
+  console.log(search_text);
+  return search_text;
+}
+
+
 export function ListItemTemplate(type: string) {
 
   const [current_path, setCurrentPath] = React.useState( window.location.pathname.split('/').filter(item => item != '')[0])

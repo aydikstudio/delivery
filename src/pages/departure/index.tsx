@@ -8,9 +8,12 @@ import Paper from '@mui/material/Paper';
 
 import { Box } from '@mui/material';
 import ShipmentsMenuComponent from '../../components/shipments_menu_component';
-import { shipments } from '../../data/data';
+import { useSelector } from 'react-redux';
+
 
 function Departure() {
+  const shipments = useSelector((state : any) => state.shipments)
+
     return (
        <>
 <ShipmentsMenuComponent />
@@ -32,7 +35,7 @@ function Departure() {
         <TableContainer sx={{mt: 2, boxShadow: 'none'}} component={Paper}>
         <Table sx={{ minWidth: 650}} aria-label="simple table">
         <TableBody>
-            {shipments.length > 0 ? shipments.filter((item) => item.status_main == 'departure').map((item, index) => (
+            {shipments.length > 0 ? shipments.filter((item: any) => item.status_main == 'departure').map((item: any, index: number) => (
                   <TableRow
                   key={index}
                   >
