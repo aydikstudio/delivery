@@ -3,12 +3,14 @@
 interface initialStateInterface {
     open: boolean,
     shipments: any[],
-
+    sortByDate: string,
+    sortByStatus: string,
 }
 
 const initialState:initialStateInterface = {
     open: true,
-
+    sortByDate: 'no',
+    sortByStatus: 'no',
     shipments: [
         {
             destination: 'Valencia-Barcelona',
@@ -110,7 +112,8 @@ export function rootReducer(state = initialState, action : any): initialStateInt
             return {
                 open: !state.open,
                 shipments: state.shipments,
-               
+                sortByDate: state.sortByDate,
+                sortByStatus: state.sortByStatus,
             };
            
 
@@ -118,9 +121,25 @@ export function rootReducer(state = initialState, action : any): initialStateInt
                 return {
                     open: state.open,
                     shipments: state.shipments,
-                 
+                    sortByDate: state.sortByDate,
+                    sortByStatus: state.sortByStatus,
+                };
+        case "updatesortbydate":
+                return {
+                        open: state.open,
+                        shipments: state.shipments,
+                        sortByDate: action.payload,
+                        sortByStatus: state.sortByStatus,
                 };
 
+
+                case "updatesortbystatus":
+                    return {
+                            open: state.open,
+                            shipments: state.shipments,
+                            sortByDate: state.sortByDate,
+                            sortByStatus:  action.payload,
+                    };
           
 
         default:

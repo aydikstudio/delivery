@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, FormControl, Grid, MenuItem, Select,  SelectChangeEvent } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getArrayWithUnicValues } from '../../utils';
 
 
@@ -10,20 +10,21 @@ const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
 function ShipmentsMenuComponent(type:any='') {
 
-  const shipments = useSelector((state : any) => state.shipments)
+    const shipments = useSelector((state : any) => state.shipments)
     const [menuActive, setMenuActive] = React.useState('arrival');
     const pathname = window.location.pathname;
 
- 
-    const [sortBy, setSortBy] =React.useState('no');
-    const [arrivalDate, setArrivalDate] =React.useState('no');
+    const dispatch = useDispatch();
+    const sortBy = useSelector((state : any) => state.sortByDate);
+    const arrivalDate = useSelector((state : any) => state.sortByStatus);
 
     const handleChangeArrivalDate = (event: SelectChangeEvent) => {
-        setArrivalDate(event.target.value as string);
+      dispatch({type: 'updatesortbystatus', payload: event.target.value as string});
       };
     
       const handleChangeSortBy = (event: SelectChangeEvent) => {
-        setSortBy(event.target.value as string);
+       
+        dispatch({type: 'updatesortbydate', payload: event.target.value as string});
       };
     
 

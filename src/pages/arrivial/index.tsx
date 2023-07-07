@@ -17,6 +17,8 @@ function Arrival() {
  
 
   const shipments = useSelector((state : any) => state.shipments)
+  const sortBy = useSelector((state : any) => state.sortByDate);
+  const arrivalDate = useSelector((state : any) => state.sortByStatus);
   const search = navigateSearch() || '';
 
     return (
@@ -45,7 +47,7 @@ function Arrival() {
 
         <TableBody>
         
-        {shipments.length > 0 ? shipments.filter((item: any) => item.status_main == 'arrival' && (search.length > 0 ? item.number == search : item.number )).map((item: any, index: number) => (
+        {shipments.length > 0 ? shipments.filter((item: any) => item.status_main == 'arrival' && (search.length > 0 ? item.number == search : item.number ) &&   (sortBy != 'no' ? item.status == sortBy:item.status ) &&  (arrivalDate != 'no' ? item.arrival_date == arrivalDate: item.arrival_date )).map((item: any, index: number) => (
                 <TableRow
                   key={index}
                 >
