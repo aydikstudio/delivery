@@ -2,20 +2,21 @@ import * as React from 'react';
 import { Box, FormControl, Grid, MenuItem, Select,  SelectChangeEvent } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
+import { getArrayWithUnicValues } from '../../utils';
 
 
 
 const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
-function ShipmentsMenuComponent() {
+function ShipmentsMenuComponent(type:any='') {
 
   const shipments = useSelector((state : any) => state.shipments)
     const [menuActive, setMenuActive] = React.useState('arrival');
     const pathname = window.location.pathname;
 
  
-    const [sortBy, setSortBy] =React.useState('delayed');
-    const [arrivalDate, setArrivalDate] =React.useState('15 Jun');
+    const [sortBy, setSortBy] =React.useState('no');
+    const [arrivalDate, setArrivalDate] =React.useState('no');
 
     const handleChangeArrivalDate = (event: SelectChangeEvent) => {
         setArrivalDate(event.target.value as string);
@@ -30,7 +31,7 @@ function ShipmentsMenuComponent() {
         return shipments.filter((item: any) => item.status_main == text).length;
       }
   
-
+ 
     return (
         <div>
              <Box sx={{mt: 5}}>
@@ -57,40 +58,53 @@ function ShipmentsMenuComponent() {
   </Link>
 </Box>
     </Grid>
-    <Grid xs={6} sx={{textAlign: 'right'}}>
-    <Box sx={{display: 'flex', justifyContent: 'end', marginTop: -2}}>
+    {type.type == 'arrival' && (
+ <Grid xs={6} sx={{textAlign: 'right'}}>
+ <Box sx={{display: 'flex', justifyContent: 'end', marginTop: -2}}>
 <Box  sx={{ minWidth: 120 }} className="toolbar_select_shipments">
-  <span className='selectsearch'>Sort By</span>
-  <FormControl >
-    <Select
+<span className='selectsearch'>Sort By</span>
 
-      value={sortBy}
-      onChange={handleChangeSortBy}
-      sx={{ fontWeight: 500, '& .MuiOutlinedInput-notchedOutline': {
-        border: 'none',
-      }}}
-    >
-      <MenuItem value={'delayed'}>Delayed</MenuItem>
-    </Select>
-  </FormControl>
+<FormControl >
+ <Select
+
+   value={sortBy}
+   onChange={handleChangeSortBy}
+   sx={{ fontWeight: 500, '& .MuiOutlinedInput-notchedOutline': {
+     border: 'none',
+   }}}
+ >
+  <MenuItem value={'no'}>No</MenuItem>
+ {getArrayWithUnicValues(shipments, 'arrival', 'status').map((item: any, index:number) => (
+  <MenuItem key={index} value={item}>{item}</MenuItem>
+ ))}
+
+   
+ </Select>
+</FormControl>
 </Box>
 <Box  sx={{ minWidth: 120 }} className="toolbar_select_shipments">
-  <span className='selectsearch'>Arrival date</span>
-  <FormControl >
-    <Select
+<span className='selectsearch'>Arrival date</span>
+<FormControl >
+ <Select
 
-      value={arrivalDate}
-      onChange={handleChangeArrivalDate}
-      sx={{ fontWeight: 500, '& .MuiOutlinedInput-notchedOutline': {
-        border: 'none',
-      }}}
-    >
-      <MenuItem value={'15 Jun'}>15 Jun</MenuItem>
-    </Select>
-  </FormControl>
+   value={arrivalDate}
+   onChange={handleChangeArrivalDate}
+   sx={{ fontWeight: 500, '& .MuiOutlinedInput-notchedOutline': {
+     border: 'none',
+   }}}
+ >
+   <MenuItem value={'no'}>No</MenuItem>
+   {getArrayWithUnicValues(shipments, 'arrival', 'arrival_date').map((item: any, index:number) => (
+  <MenuItem key={index} value={item}>{item}</MenuItem>
+ ))}
+
+ </Select>
+</FormControl>
 </Box>
 </Box>
-    </Grid>
+ </Grid>
+    )}
+   
   </Grid>
   </Box>
         </div>

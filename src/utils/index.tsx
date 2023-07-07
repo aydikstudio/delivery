@@ -31,13 +31,25 @@ export const drawerWidth = 280;
 // }
 
 
+export function getArrayWithUnicValues(arr: any, group: string, type: string) {
+   let new_arr:any = [];
+
+   arr.filter((item2:any) => item2.status_main == group ).map((item1: any) => {
+    if(!new_arr.find((item: any) => item == item1[type] )) {
+      new_arr.push(item1[type])
+    }
+   })
+
+   return new_arr;
+}
+
 export function navigateSearch() {
   let search_text = ''
   if( window.location.href.indexOf("?") >= 0) {
     const search_path = window.location.href.split('?').filter(item => item != '')[1]
     search_text = (search_path.split('=')[0] == "search" ? search_path.split('=')[1] : '')
   }
-  console.log(search_text);
+
   return search_text;
 }
 
@@ -104,8 +116,8 @@ const [sidebarMenu, setSidebarMenu] = React.useState([
   
     return (
       <div>
-        {type == 'header' ? sidebarMenuHeader.map((item) => (
-          <Link to={item.link} style={{textDecoration: 'none'}} onClick={() => {setActiveMenu(item.link)}} >
+        {type == 'header' ? sidebarMenuHeader.map((item, index) => (
+          <Link key={index} to={item.link} style={{textDecoration: 'none'}} onClick={() => {setActiveMenu(item.link)}} >
           <ListItem  className={current_path == item.link.split('/').filter(item => item != '')[0] ? 'sidebar_menu_button_active' : 'sidebar_menu_button '} disablePadding>
             <ListItemButton className='sidebar_menu_button_info '>
               <ListItemIcon className='sidebar_menu_button_icon '>
@@ -115,8 +127,8 @@ const [sidebarMenu, setSidebarMenu] = React.useState([
             </ListItemButton>
           </ListItem>
   </Link>
-        )) : sidebarMenu.map((item) => (
-          <Link to={item.link} style={{textDecoration: 'none'}} onClick={() => {setActiveMenu(item.link)}} >
+        )) : sidebarMenu.map((item, index) => (
+          <Link key={index} to={item.link} style={{textDecoration: 'none'}} onClick={() => {setActiveMenu(item.link)}} >
           <ListItem  className={current_path == item.link.split('/').filter(item => item != '')[0] ? 'sidebar_menu_button_active' : 'sidebar_menu_button '} disablePadding>
             <ListItemButton className='sidebar_menu_button_info '>
               <ListItemIcon className='sidebar_menu_button_icon '>

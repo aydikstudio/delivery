@@ -21,7 +21,7 @@ function Arrival() {
 
     return (
        <>
-<ShipmentsMenuComponent />
+<ShipmentsMenuComponent type='arrival'/>
 <Box sx={{mt: 10}}>
       <TableContainer sx={{ boxShadow: 'none'}} component={Paper}>
       <Table sx={{ minWidth: 650 }} >
@@ -29,11 +29,11 @@ function Arrival() {
           <TableRow>
             <TableCell >Destination</TableCell>
             <TableCell align='center'>Shipment number</TableCell>
-            <TableCell >Truck</TableCell>
-            <TableCell >Total weight, kg</TableCell>
-            <TableCell >Status</TableCell>
-            <TableCell >Departure date</TableCell>
-            <TableCell>Arrival date</TableCell>
+            <TableCell align='center' >Truck</TableCell>
+            <TableCell  align='center'>Total weight, kg</TableCell>
+            <TableCell  align='center'>Status</TableCell>
+            <TableCell  align='center'>Departure date</TableCell>
+            <TableCell  align='center'>Arrival date</TableCell>
             <TableCell align='center'>Time delay</TableCell>
           </TableRow>
         </TableHead>
@@ -55,7 +55,7 @@ function Arrival() {
                   <TableCell >{item.number}</TableCell>
                   <TableCell>{item.truck}</TableCell>
                   <TableCell>{item.weight}</TableCell>
-                  <TableCell align='center'><span className="delayed">{item.status}</span></TableCell>
+                  <TableCell align='center'>{item.status =='delayed' ? <span className='delayed'>{item.status}</span> : <span className='arrives'>{item.status}</span>}</TableCell>
                   <TableCell>{item.departure_date}</TableCell>
                   <TableCell>{item.arrival_date}</TableCell>
                   <TableCell >{item.time_delay}</TableCell>
