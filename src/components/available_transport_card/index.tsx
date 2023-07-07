@@ -17,10 +17,10 @@ function AvailableTransportCard(item1: any) {
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
      
             <Typography component="div" variant="h4">
-            {item.destination} <span style={{fontSize: 16, color: '#b3b3b3'}}> {item.departure_date}</span>
+            {item.from}-{item.to} <span style={{fontSize: 16, color: '#b3b3b3'}}> {item.departure_date}</span>
             </Typography>
             <Typography variant="h3" component="div" sx={{color: '#f05252'}}>
-            {item.busy_weigh/item.weight*100}%
+            {Math.round(item.busy_weigh/item.weight*100)}%
             </Typography>
            
           

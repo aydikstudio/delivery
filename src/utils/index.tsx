@@ -34,11 +34,20 @@ export const drawerWidth = 280;
 export function getArrayWithUnicValues(arr: any, group: string, type: string) {
    let new_arr:any = [];
 
-   arr.filter((item2:any) => item2.status_main == group ).map((item1: any) => {
-    if(!new_arr.find((item: any) => item == item1[type] )) {
-      new_arr.push(item1[type])
-    }
-   })
+   if(group == 'all') {
+    arr.map((item1: any) => {
+      if(!new_arr.find((item: any) => item == item1[type] )) {
+        new_arr.push(item1[type])
+      }
+     })
+   } else {
+    arr.filter((item2:any) => item2.status_main == group ).map((item1: any) => {
+      if(!new_arr.find((item: any) => item == item1[type] )) {
+        new_arr.push(item1[type])
+      }
+     })
+   }
+  
 
    return new_arr;
 }

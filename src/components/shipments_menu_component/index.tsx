@@ -75,11 +75,17 @@ function ShipmentsMenuComponent(type:any='') {
    }}}
  >
   <MenuItem value={'no'}>No</MenuItem>
- {getArrayWithUnicValues(shipments, 'arrival', 'status').map((item: any, index:number) => (
-  <MenuItem key={index} value={item}>{item}</MenuItem>
- ))}
 
-   
+
+  <MenuItem  value={'number'}>Shipment number</MenuItem>
+  <MenuItem value={'truck'}>Truck</MenuItem>
+  <MenuItem  value={'weight'}>Total weight, kg</MenuItem>
+  <MenuItem  value={'status'}>Status</MenuItem>
+  <MenuItem  value={'departure_date'}>Departure date</MenuItem>
+  <MenuItem value={'arrival_date'}>Arrival date</MenuItem>
+  <MenuItem  value={'time_delay'}>Time delay</MenuItem>
+
+
  </Select>
 </FormControl>
 </Box>

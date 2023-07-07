@@ -9,7 +9,7 @@ import {
     styled,
     TextField
 } from '@mui/material';
-import {drawerWidth, navigateSearch} from '../../utils';
+import {drawerWidth, getArrayWithUnicValues, navigateSearch} from '../../utils';
 import {useSelector, useDispatch} from 'react-redux';
 import Box from '@mui/material/Box';
 import SearchIcon from '@mui/icons-material/Search';
@@ -54,12 +54,12 @@ function ToolbarBlock() {
     const [search, setSearch] =React.useState(navigateSearch());
     const shipments = useSelector((state : any) => state.shipments);
     const dispatch = useDispatch();
-    const [city, setCity] = React.useState('barcelona');
+    const city = useSelector((state : any) => state.city);
     const [departament, setDepartament] = React.useState('1');
     const navigate = useNavigate();
 
     const handleChangeCity = (event : SelectChangeEvent) => {
-        setCity(event.target.value as string);
+        dispatch({type: 'updatecity', payload: event.target.value as string});
     };
 
 
@@ -162,7 +162,10 @@ function ToolbarBlock() {
                                                 }
                                             }
                                     }>
-                                        <MenuItem value={'barcelona'}>Barcelona</MenuItem>
+                                        <MenuItem value={'no'}>No</MenuItem>
+                                        {getArrayWithUnicValues(shipments, 'all', 'from').map((item: any, index:number) => (
+  <MenuItem key={index} value={item}>{item}</MenuItem>
+ ))}
                                     </Select>
                                 </FormControl>
                             </Box>
