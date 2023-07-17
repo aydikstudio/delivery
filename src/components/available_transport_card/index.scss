@@ -1,0 +1,21 @@
+
+
+.car {
+    background-image: url('track.png');
+    background-repeat:no-repeat;
+    background-size:contain;
+    width:200%;
+    position: relative;
+    top: 30px;
+    left: 150px;
+    height: 250px;    
+}
+
+.car-container {
+    position: relative;
+    opacity: .7;
+    height: 160px;
+    left: 207px;
+    top: 9px;
+    
+}

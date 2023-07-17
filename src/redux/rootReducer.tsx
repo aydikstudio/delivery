@@ -25,7 +25,6 @@ const initialState:initialStateInterface = {
             departure_date: '14/10/2023',
             arrival_date: '09/10/2023',
             time_delay: '3:05 h',
-            img: 'track.png',
             busy_weigh: 0
         },
         {
@@ -39,7 +38,6 @@ const initialState:initialStateInterface = {
             departure_date: '13/10/2023',
             arrival_date: '08/10/2023',
             time_delay: '2:05 h',
-            img: 'track.png',
             busy_weigh: 0
         },
         {
@@ -53,7 +51,6 @@ const initialState:initialStateInterface = {
             departure_date: '15/10/2023',
             arrival_date: '10/10/2023',
             time_delay: '-',
-            img: 'track.png',
             busy_weigh: 0
         },
         {
@@ -67,7 +64,6 @@ const initialState:initialStateInterface = {
             departure_date: '10/10/2023',
             arrival_date: '15/10/2023',
             time_delay: '4:05 h',
-            img: 'track.png',
             busy_weigh: 20,
         },
         {
@@ -95,8 +91,20 @@ const initialState:initialStateInterface = {
             departure_date: '10/10/2023',
             arrival_date: '15/10/2023',
             time_delay: '5:05 h',
-            img: 'track.png',
             busy_weigh: 100
+        },
+        {
+            from: 'Valencia',
+            to: 'Barcelona',
+            number: 'T3332234',
+            truck: 'Iveco 80E18',
+            weight: 700,
+            status: 'delayed',
+            status_main: 'available',
+            departure_date: '14/10/2023',
+            arrival_date: '19/10/2023',
+            time_delay: '5:05 h',
+            busy_weigh: 400
         },
         {
             from: 'Bilbao',
@@ -109,7 +117,6 @@ const initialState:initialStateInterface = {
             departure_date: '10/10/2023',
             arrival_date: '15/10/2023',
             time_delay: '5:05 h',
-            img: 'track.png',
             busy_weigh: 100
         }
     ]
