@@ -16,6 +16,8 @@ import {useSelector} from 'react-redux';
 import ToolbarBlock from './components/toolbar';
 import Sidebar from './components/sidebar';
 import Departure from './pages/departure';
+import Shipment from './pages/shipment';
+
 
 
 
@@ -50,6 +52,13 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
+const Wrapper = ({children}: any) => (
+  <div>
+     <ToolbarBlock />
+     {children}
+  </div>
+);
+
 export default function App() {
 
   const open = useSelector((state : any) => state.open)
@@ -64,18 +73,19 @@ export default function App() {
   return (
     <Box sx={{ display: 'flex', backgroundColor: '#F9F9FB' }}>
       <CssBaseline />
-      <ToolbarBlock />
+     
       <Sidebar />
       <Main open={open} className={'main'}>
         <DrawerHeader />
        
 
-         
+       
       <Routes>
-        <Route path="/" element={<Arrival />} />
-        <Route path="/shipments/arrival" element={<Arrival />} />
-        <Route path="/shipments/available" element={<Available />} />
-        <Route path="/shipments/departure" element={<Departure />} />
+        <Route path="/" element={<Wrapper><Arrival /></Wrapper>} />
+        <Route path="/shipments/arrival" element={<Wrapper><Arrival /></Wrapper>} />
+        <Route path="/shipments/available" element={<Wrapper><Available /></Wrapper>}  />
+        <Route path="/shipments/departure" element={<Wrapper><Departure /></Wrapper>} />
+        <Route path="/shipment/:id" element={<Shipment />} />
       </Routes>
       
       </Main>

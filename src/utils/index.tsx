@@ -153,3 +153,33 @@ const [sidebarMenu, setSidebarMenu] = React.useState([
     )
 }
 
+
+
+export function getColorProcent(procent:number) {
+  if(procent >= 67) {
+    return '#f05252'
+  } else if(procent <= 33) {
+    return '#49c100'
+  } else {
+    return '#eeb405'
+  }
+ 
+}
+
+export const getProperty = (procent:number, base_width: number) => {
+let obj = {
+  backgroundColor: '',
+  width: base_width*(procent/100),
+}
+if(procent >= 67) {
+  obj.backgroundColor = '#f05252'
+} else if(procent <= 33) {
+  obj.backgroundColor = '#49c100'
+} else {
+  obj.backgroundColor = '#eeb405'
+}
+
+
+return obj
+
+}

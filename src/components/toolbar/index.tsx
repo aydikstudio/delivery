@@ -75,19 +75,24 @@ function ToolbarBlock() {
     const submitSearch = () => {
         let shipment = shipments.find((item: any) => item.number == search);
        
-        if(shipment) {
-            if(shipment.status_main == 'arrival') {
-                navigate("/shipments/arrival?search="+search);
-            } else if (shipment.status_main == 'departure') {
-                navigate("/shipments/departure?search"+search);
-            } else if(shipment.status_main == 'available') {
-                navigate("/shipments/available?search"+search);
-            } 
+        if(search.length > 0) {
+            if(shipment) {
+                if(shipment.status_main == 'arrival') {
+                    navigate("/shipments/arrival?search="+search);
+                } else if (shipment.status_main == 'departure') {
+                    navigate("/shipments/departure?search"+search);
+                } else if(shipment.status_main == 'available') {
+                    navigate("/shipments/available?search"+search);
+                } 
+            } else {
+              
+       
+                alert("Не найдет трэк номер");
+            }
         } else {
-          
-   
-            alert("Не найдет трэк номер");
+            alert("Введите трэк номер");
         }
+       
     };
 
     return (

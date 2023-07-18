@@ -11,6 +11,7 @@ import { Box } from '@mui/material';
 import ShipmentsMenuComponent from '../../components/shipments_menu_component';
 import { useSelector } from 'react-redux';
 import { navigateSearch } from '../../utils';
+import ToolbarBlock from '../../components/toolbar';
 
 
 function Arrival() {
@@ -23,6 +24,7 @@ function Arrival() {
 
     return (
        <>
+      
 <ShipmentsMenuComponent type='arrival'/>
 <Box sx={{mt: 10}}>
       <TableContainer sx={{ boxShadow: 'none'}} component={Paper}>

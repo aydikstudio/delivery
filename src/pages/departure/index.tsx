@@ -20,6 +20,7 @@ function Departure() {
 
     return (
        <>
+    
 <ShipmentsMenuComponent />
 <Box sx={{mt: 10}}>
       <TableContainer sx={{ boxShadow: 'none'}} component={Paper}>

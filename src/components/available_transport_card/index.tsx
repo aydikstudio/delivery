@@ -5,6 +5,8 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
+import { getColorProcent, getProperty } from '../../utils';
 
 import './index.scss'
 
@@ -13,46 +15,19 @@ function AvailableTransportCard(item1: any) {
         const item = item1.item;
         const procent = item.busy_weigh/item.weight*100;
 
-        const getColorProcent = () => {
-            if(procent >= 67) {
-              return '#f05252'
-            } else if(procent <= 33) {
-              return '#49c100'
-            } else {
-              return '#eeb405'
-            }
-           
-        }
-
-        const getProperty = () => {
-          let base_width = 310;
-          let obj = {
-            backgroundColor: '',
-            width: base_width*(procent/100)
-          }
-          if(procent >= 67) {
-            obj.backgroundColor = '#f05252'
-          } else if(procent <= 33) {
-            obj.backgroundColor = '#49c100'
-          } else {
-            obj.backgroundColor = '#eeb405'
-          }
-
-
-          return obj
-         
-      }
+       
 
     return (
+   <Link to={`/shipment/${item.number}`} style={{textDecoration: 'none'}}>
       <Card className='car-block' sx={{padding: 3}}>
         {item && (
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
      
             <Typography component="div" variant="h4">
-            {item.from}-{item.to} <span style={{fontSize: 16, color: '#b3b3b3'}}> {item.departure_date}</span>
+            {item.from}-{item.to} <span style={{fontSize: 16, color: '#b3b3b3'}}> {item.departure_date} </span>
             </Typography>
-            <Typography variant="h3" component="div" sx={{color: getColorProcent()}}>
+            <Typography variant="h3" component="div" sx={{color: getColorProcent(procent)}}>
             {Math.round(item.busy_weigh/item.weight*100)}%
             </Typography>
            
@@ -86,7 +61,7 @@ function AvailableTransportCard(item1: any) {
             </Box>
           </Box>
           <Box className='car'>
-            <Box className='car-container' style={getProperty()}>
+            <Box className='car-container' style={getProperty(procent, 310)}>
            
             </Box>
           </Box>
@@ -97,6 +72,7 @@ function AvailableTransportCard(item1: any) {
         
    
       </Card>
+      </Link>
     )
 }
 
