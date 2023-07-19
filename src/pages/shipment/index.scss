@@ -1,10 +1,14 @@
+.papper-shipment {
+    padding: 40px;
+}
+
 .car-shipment {
     background-image: url('track.png');
     background-repeat:no-repeat;
     background-size:contain;
     width:1500%;
     position: relative;
-    left: 300px;
+    left: 130px;
     height: 150px;    
 }
 
@@ -15,4 +19,50 @@
     left: 125px;
     top: 4px;
     
+}
+
+.tier-box {
+    width: 140px;
+    height: 100px;
+    border-radius: 5px;
+    opacity: .8;
+    background-color: #e7e7e7 !important;
+}
+
+.tier-box-available {
+    background-color: #8fde63 !important;
+}
+
+.tier-box-activated {
+    background-color: #6015f9 !important;
+}
+
+.truck-button {
+    text-transform: capitalize !important;
+    font-size: 16px !important;
+    width: 250px;
+    height: 50px;
+    border: none !important;
+    background-color: #f8f6f6 !important;
+    color:#6015f9 !important;
+
+      
+}
+
+
+
+
+.truck-button:hover {
+    background-color: #6015f9 !important;
+    color: #f8f6f6 !important;
+}
+
+
+.css-gl260s-MuiDataGrid-columnHeadersInner {
+    border: none !important;
+    background-color: #f8f6f6;
+}
+
+.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
+    color:#6015f9 !important;
 }
