@@ -66,3 +66,8 @@
 .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate {
     color:#6015f9 !important;
 }
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}

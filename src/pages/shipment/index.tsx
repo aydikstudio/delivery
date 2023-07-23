@@ -9,37 +9,50 @@ import { GridContextProvider, GridDropZone, GridItem, swap  } from "react-grid-d
 import { getColorProcent, getProperty } from "../../utils";
 import './index.scss';
 import * as React from "react";
+import { useDispatch } from "react-redux";
 
 
 
 
 function Shipment() {
-
+    const dispatch = useDispatch();
     let {id } = useParams();
-    const shipment = useSelector((state : any) => state.shipments).find((item: any) => item.number == id);
+    const [shipment, setShipment] = React.useState(useSelector((state : any) => state.shipments).find((item: any) => item.number == id))
     const procent = shipment.busy_weigh/shipment.weight*100;
     const [selectedCount, setSelectedCount] = React.useState(0);
     const [volumeCount, setVolumeCount] = React.useState(0);
     const [allCheckBox, setAllCheckBox] = React.useState(false);
-const [rows, setRows] = React.useState([
-    {checkbox: false, parcel_number: 159, volume_weight: 6, admission_date: '24/10/2024'},
-    {checkbox: false, parcel_number: 158, volume_weight: 6, admission_date: '24/10/2024'},
-    {checkbox: false, parcel_number: 157, volume_weight: 6, admission_date: '24/10/2024'},
-  ]);
+const [rows, setRows] = React.useState(useSelector((state : any) => state.parcels));
 
   const [widgets, setWidgets] = React.useState<string[]>([]);
 
   function handleOnDrag(e: React.DragEvent) {
-    e.dataTransfer.setData("widgetType", [...rows.filter((item) => item.checkbox == true).map((item) => (
+    e.dataTransfer.setData("widgetType", [...rows.filter((item: any) => item.checkbox == true).map((item: any) => (
         item.parcel_number
     ))].join (',') )
   }
 
-  function handleOnDrop(e: React.DragEvent) {
-    const widgetType = e.dataTransfer.getData("widgetType") as string;
+  function handleOnDrop(e: React.DragEvent, item: any) {
     const widgetArray =  e.dataTransfer.getData("widgetType").split(',');
-    setWidgets([...widgets, widgetType])
-    setRows(rows.filter((item) => !widgetArray.find((item1) =>  Number(item1) == item.parcel_number )))
+    const widgetArraySumm = widgetArray.map((item) => (rows.find((item1: any) => item1.parcel_number == Number(item) ))).reduce(function (acc: any, obj: any) { return acc + obj.volume_weight; }, 0)
+  
+    if(shipment.busy_weigh+widgetArraySumm <= shipment.weight) {
+ 
+        let shipment_obj = shipment;
+        const widgetType = e.dataTransfer.getData("widgetType") as string;
+       
+        setWidgets([...widgets, widgetType])
+        setRows(rows.filter((item: any) => !widgetArray.find((item1) =>  Number(item1) == item.parcel_number )))
+        // dispatch({type: 'updateparcels', payload: rows.filter((item: any) => !widgetArray.find((item1) =>  Number(item1) == item.parcel_number )) })
+        if(item.type == 'upper') {
+           shipment_obj.upper_tier.find((item1:any) => item1.upper_tier_id == item.upper_tier_id).busy = true;
+           shipment_obj.busy_weigh += widgetArraySumm;
+           setShipment(shipment_obj)
+            // dispatch({type: 'updateshipments', payload: rows.filter((item: any) => !widgetArray.find((item1) =>  Number(item1) == item.parcel_number )) })
+        }
+       
+    }
+   
   }
 
 
@@ -49,8 +62,8 @@ const [rows, setRows] = React.useState([
   }
 
   React.useEffect(() => {
-    setSelectedCount(rows.filter((item) => item.checkbox == true).length)
-    setVolumeCount( rows.filter((item) => item.checkbox == true).reduce(function (acc, obj) { return acc + obj.volume_weight; }, 0))
+    setSelectedCount(rows.filter((item: any) => item.checkbox == true).length)
+    setVolumeCount( rows.filter((item: any) => item.checkbox == true).reduce(function (acc: any, obj: any) { return acc + obj.volume_weight; }, 0))
   }, [rows])
   
 
@@ -58,7 +71,7 @@ const [rows, setRows] = React.useState([
     
 const checkRow = (id: number, checkbox: boolean) => {
 
-    let updatedList = rows.map((item) => 
+    let updatedList = rows.map((item: any) => 
         {
           if (item.parcel_number == id){
             return {...item, checkbox: !checkbox}; 
@@ -93,7 +106,7 @@ const showRow = (row: any) => {
         return(
             <TableRow key={row.parcel_number} draggable onDragStart={(e) => handleOnDrag(e)}>
             <TableCell><Checkbox  checked={true} onClick={() => checkRow(row.parcel_number, row.checkbox)} /></TableCell>
-            <TableCell align="right">{row.parcel_number}</TableCell>
+            <TableCell align="left">{row.parcel_number}</TableCell>
             <TableCell align="right">{row.volume_weight}</TableCell>
             <TableCell align="right">{row.admission_date}</TableCell>
           </TableRow>
@@ -102,7 +115,7 @@ const showRow = (row: any) => {
         return(
             <TableRow key={row.parcel_number} onDragStart={(e) => handleOnDrag(e)}>
             <TableCell><Checkbox checked={false} onClick={() => checkRow(row.parcel_number, row.checkbox)} /></TableCell>
-            <TableCell align="right">{row.parcel_number}</TableCell>
+            <TableCell align="left">{row.parcel_number}</TableCell>
             <TableCell align="right">{row.volume_weight}</TableCell>
             <TableCell align="right">{row.admission_date}</TableCell>
           </TableRow>
@@ -117,7 +130,7 @@ const onSelectedAll = () => {
    let allcheck = !allCheckBox
    let updatedList;
     if(allcheck) {
-         updatedList = rows.map((item) => {
+         updatedList = rows.map((item: any) => {
 
         
    
@@ -125,7 +138,7 @@ const onSelectedAll = () => {
         }
         );
     } else {
-        updatedList = rows.map((item) => {
+        updatedList = rows.map((item: any) => {
 
         
    
@@ -139,6 +152,37 @@ const onSelectedAll = () => {
     setAllCheckBox(allcheck)
 }
 
+
+
+const showTierBox = (item: any) => {
+
+        if(item.active) {
+            if(item.busy) {
+                return (
+                    <Box className='tier-box tier-box-activated' onDrop={(e) => handleOnDrop(e, item)} onDragOver={handleDragOver}>
+                  
+    </Box>
+                )
+            } else {
+                return (
+                    <Box className='tier-box tier-box-available' onDrop={(e) => handleOnDrop(e, item)} onDragOver={handleDragOver}>
+               
+                    </Box>
+                )
+            }
+         
+        } else {
+            return (
+                <Box className='tier-box tier-box-free' onDrop={(e) => handleOnDrop(e, item)} onDragOver={handleDragOver}>
+           
+                </Box>
+            )
+        }
+  
+   
+
+
+}
 
     return (
         <Box style={{position: 'relative', top: -100}}>
@@ -185,24 +229,19 @@ const onSelectedAll = () => {
         
         </Box>
 
-        <Box style={{marginTop: '20px'}}>
+        <Box className={shipment.busy_weigh >= shipment.weight ? 'disabled' : ''}>
+        <Box  style={{marginTop: '20px'}} >
             <Box  style={{display: 'flex'}}>
         <Typography >Upper tier</Typography>
         <DonutLargeIcon style={{color: '#b9b9b9', marginLeft: 5, marginBottom: 5}}/>
         </Box>
         <Box style={{display: 'flex', justifyContent: 'space-between', marginTop: '20px'}}>
-            <Box className='tier-box tier-box-available'>
-             
-            </Box>
-            <Box className='tier-box tier-box-free'>
-               
-                </Box>
-                <Box className='tier-box tier-box-free'>
-              
-                </Box>
-                <Box className='tier-box tier-box-free'>
-                
-                </Box>
+            {
+                shipment.upper_tier.map((item: any) => (
+                    showTierBox(item)
+                    ))
+            }
+         
         </Box>
         </Box>
 
@@ -213,18 +252,11 @@ const onSelectedAll = () => {
         <DonutLargeIcon style={{color: '#b9b9b9', marginLeft: 5, marginBottom: 5}}/>
         </Box>
         <Box style={{display: 'flex', justifyContent: 'space-between', marginTop: '20px'}}>
-            <Box className='tier-box tier-box-available'>
-             
-            </Box>
-            <Box className='tier-box tier-box-free'>
-               
-                </Box>
-                <Box className='tier-box tier-box-free'>
-              
-                </Box>
-                <Box className='tier-box tier-box-free'>
-                
-                </Box>
+        {
+                shipment.middle_tier.map((item: any) =>  (
+                    showTierBox(item)
+                ))
+            }
         </Box>
         </Box>
 
@@ -235,18 +267,12 @@ const onSelectedAll = () => {
         <DonutLargeIcon style={{color: '#b9b9b9', marginLeft: 5, marginBottom: 5}}/>
         </Box>
         <Box style={{display: 'flex', justifyContent: 'space-between', marginTop: '20px'}}>
-            <Box className='tier-box tier-box-available'>
-             
-            </Box>
-            <Box className='tier-box tier-box-free'>
-               
-                </Box>
-                <Box className='tier-box tier-box-activated'>
-              
-                </Box>
-                <Box className='tier-box tier-box-free'>
-                
-                </Box>
+        {
+                shipment.lower_tier.map((item: any) => (
+                    showTierBox(item)
+                ))
+            }
+        </Box>
         </Box>
         </Box>
 
@@ -292,14 +318,14 @@ const onSelectedAll = () => {
         <TableHead>
           <TableRow>
             <TableCell><Checkbox  onClick={() => onSelectedAll()}/></TableCell>
-            <TableCell align="right">Parcel number</TableCell>
+            <TableCell align="left">Parcel number</TableCell>
             <TableCell align="right">Volume weight</TableCell>
             <TableCell align="right">Admission date</TableCell> 
           </TableRow>
         </TableHead>
         <TableBody>
  
-          {rows.map((row) => (
+          {rows.map((row: any) => (
              showRow(row)
           ))}
    
@@ -309,13 +335,13 @@ const onSelectedAll = () => {
 
     </div>
         </Box>
-        <Box style={{border: '1px solid #ff0000', height: '1000px'}} onDrop={handleOnDrop} onDragOver={handleDragOver}>
+        {/* <Box style={{border: '1px solid #ff0000', height: '1000px'}} onDrop={handleOnDrop} onDragOver={handleDragOver}>
             {widgets.map((widget, index) => (
                 <div className="dropped-widget" key={index}>
                     {widget}
                 </div>
             ))}
-  </Box>
+  </Box> */}
     </Paper>
   </Grid> 
 

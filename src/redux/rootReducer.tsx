@@ -3,6 +3,7 @@
 interface initialStateInterface {
     open: boolean,
     shipments: any[],
+    parcels: any[],
     sortByDate: string,
     sortByStatus: string,
     city: string,
@@ -13,6 +14,12 @@ const initialState:initialStateInterface = {
     sortByDate: 'no',
     sortByStatus: 'no',
     city: 'no',
+    parcels: [
+        {checkbox: false, parcel_number: 159, volume_weight: 200, admission_date: '24/10/2024'},
+        {checkbox: false, parcel_number: 158, volume_weight: 200, admission_date: '24/10/2024'},
+        {checkbox: false, parcel_number: 157, volume_weight: 200, admission_date: '24/10/2024'},
+        {checkbox: false, parcel_number: 156, volume_weight: 100, admission_date: '24/10/2024'},
+    ],
     shipments: [
         {
             from: 'Valencia',
@@ -77,7 +84,6 @@ const initialState:initialStateInterface = {
             departure_date: '10/10/2023',
             arrival_date: '15/10/2023',
             time_delay: '5:05 h',
-            img: 'track.png',
             busy_weigh: 20,
         },
         {
@@ -91,7 +97,85 @@ const initialState:initialStateInterface = {
             departure_date: '10/10/2023',
             arrival_date: '15/10/2023',
             time_delay: '5:05 h',
-            busy_weigh: 100
+            busy_weigh: 100,
+            upper_tier:[
+                {
+                    upper_tier_id: 1,
+                    active: false,
+                    type: 'upper',
+                    busy: false
+                },
+                {
+                    upper_tier_id: 2,
+                    active: true,
+                    type: 'upper',
+                    busy: false
+                },
+                {
+                    upper_tier_id: 3,
+                    active: true,
+                    type: 'upper',
+                    busy: false
+                },
+                {
+                    upper_tier_id: 4,
+                    active: false,
+                    type: 'upper',
+                    busy: false
+                }
+            ],
+            middle_tier:[
+                {
+                    middle_tier_id: 1,
+                    active: false,
+                    type: 'middle',
+                    busy: false
+                },
+                {
+                    middle_tier_id: 2,
+                    active: true,
+                    type: 'middle',
+                    busy: false
+                },
+                {
+                    middle_tier_id: 3,
+                    active: true,
+                    type: 'middle',
+                    busy: false
+                },
+                {
+                    middle_tier_id: 4,
+                    active: false,
+                    type: 'middle',
+                    busy: false
+                }
+            ],
+           lower_tier:[
+                {
+                    lower_tier_id: 1,
+                    active: true,
+                    type: 'lower',
+                    busy: false
+                },
+                {
+                    lower_tier_id: 2,
+                    active: true,
+                    type: 'lower',
+                    busy: false
+                },
+                {
+                    lower_tier_id: 3,
+                    active: true,
+                    type: 'lower',
+                    busy: false
+                },
+                {
+                    lower_tier_id: 4,
+                    active: false,
+                    type: 'lower',
+                    busy: false
+                }
+            ],
         },
         {
             from: 'Valencia',
@@ -104,7 +188,85 @@ const initialState:initialStateInterface = {
             departure_date: '14/10/2023',
             arrival_date: '19/10/2023',
             time_delay: '5:05 h',
-            busy_weigh: 400
+            busy_weigh: 400,
+            upper_tier:[
+                {
+                    upper_tier_id: 1,
+                    active: false,
+                    type: 'upper',
+                    busy: false
+                },
+                {
+                    upper_tier_id: 2,
+                    active: true,
+                    type: 'upper',
+                    busy: false
+                },
+                {
+                    upper_tier_id: 3,
+                    active: true,
+                    type: 'upper',
+                    busy: false
+                },
+                {
+                    upper_tier_id: 4,
+                    active: false,
+                    type: 'upper',
+                    busy: false
+                }
+            ],
+            middle_tier:[
+                {
+                    middle_tier_id: 1,
+                    active: false,
+                    type: 'middle',
+                    busy: false
+                },
+                {
+                    middle_tier_id: 2,
+                    active: true,
+                    type: 'middle',
+                    busy: false
+                },
+                {
+                    middle_tier_id: 3,
+                    active: true,
+                    type: 'middle',
+                    busy: false
+                },
+                {
+                    middle_tier_id: 4,
+                    active: false,
+                    type: 'middle',
+                    busy: false
+                }
+            ],
+           lower_tier:[
+                {
+                    lower_tier_id: 1,
+                    active: true,
+                    type: 'lower',
+                    busy: false
+                },
+                {
+                    lower_tier_id: 2,
+                    active: true,
+                    type: 'lower',
+                    busy: false
+                },
+                {
+                    lower_tier_id: 3,
+                    active: true,
+                    type: 'lower',
+                    busy: false
+                },
+                {
+                    lower_tier_id: 4,
+                    active: false,
+                    type: 'lower',
+                    busy: false
+                }
+            ],
         },
         {
             from: 'Bilbao',
@@ -117,7 +279,85 @@ const initialState:initialStateInterface = {
             departure_date: '10/10/2023',
             arrival_date: '15/10/2023',
             time_delay: '5:05 h',
-            busy_weigh: 100
+            busy_weigh: 100,
+            upper_tier:[
+                {
+                    upper_tier_id: 1,
+                    active: false,
+                    type: 'upper',
+                    busy: false
+                },
+                {
+                    upper_tier_id: 2,
+                    active: true,
+                    type: 'upper',
+                    busy: false
+                },
+                {
+                    upper_tier_id: 3,
+                    active: true,
+                    type: 'upper',
+                    busy: false
+                },
+                {
+                    upper_tier_id: 4,
+                    active: false,
+                    type: 'upper',
+                    busy: false
+                }
+            ],
+            middle_tier:[
+                {
+                    middle_tier_id: 1,
+                    active: false,
+                    type: 'middle',
+                    busy: false
+                },
+                {
+                    middle_tier_id: 2,
+                    active: true,
+                    type: 'middle',
+                    busy: false
+                },
+                {
+                    middle_tier_id: 3,
+                    active: true,
+                    type: 'middle',
+                    busy: false
+                },
+                {
+                    middle_tier_id: 4,
+                    active: false,
+                    type: 'middle',
+                    busy: false
+                }
+            ],
+           lower_tier:[
+                {
+                    lower_tier_id: 1,
+                    active: true,
+                    type: 'lower',
+                    busy: false
+                },
+                {
+                    lower_tier_id: 2,
+                    active: true,
+                    type: 'lower',
+                    busy: false
+                },
+                {
+                    lower_tier_id: 3,
+                    active: true,
+                    type: 'lower',
+                    busy: false
+                },
+                {
+                    lower_tier_id: 4,
+                    active: false,
+                    type: 'lower',
+                    busy: false
+                }
+            ],
         }
     ]
 }
@@ -130,17 +370,19 @@ export function rootReducer(state = initialState, action : any): initialStateInt
                 shipments: state.shipments,
                 sortByDate: state.sortByDate,
                 sortByStatus: state.sortByStatus,
-                city: state.city
+                city: state.city,
+                parcels: state.parcels
             };
            
 
         case "updateshipments":
                 return {
                     open: state.open,
-                    shipments: state.shipments,
+                    shipments: action.payload,
                     sortByDate: state.sortByDate,
                     sortByStatus: state.sortByStatus,
-                    city: state.city
+                    city: state.city,
+                    parcels: state.parcels
                 };
         case "updatesortbydate":
                 return {
@@ -148,7 +390,8 @@ export function rootReducer(state = initialState, action : any): initialStateInt
                         shipments: state.shipments,
                         sortByDate: action.payload,
                         sortByStatus: state.sortByStatus,
-                        city: state.city
+                        city: state.city,
+                        parcels: state.parcels
                 };
 
 
@@ -158,7 +401,8 @@ export function rootReducer(state = initialState, action : any): initialStateInt
                             shipments: state.shipments,
                             sortByDate: state.sortByDate,
                             sortByStatus:  action.payload,
-                            city: state.city
+                            city: state.city,
+                            parcels: state.parcels
                     };
                 
                     case "updatecity":
@@ -167,8 +411,19 @@ export function rootReducer(state = initialState, action : any): initialStateInt
                                 shipments: state.shipments,
                                 sortByDate: state.sortByDate,
                                 sortByStatus: state.sortByStatus,
-                                city: action.payload
+                                city: action.payload,
+                                parcels: state.parcels
                         };
+
+                        case "updateparcels":
+                            return {
+                                    open: state.open,
+                                    shipments: state.shipments,
+                                    sortByDate: state.sortByDate,
+                                    sortByStatus: state.sortByStatus,
+                                    city: state.city,
+                                    parcels: action.payload
+                            };
           
 
         default:
