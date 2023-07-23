@@ -37,7 +37,9 @@ const [rows, setRows] = React.useState([
 
   function handleOnDrop(e: React.DragEvent) {
     const widgetType = e.dataTransfer.getData("widgetType") as string;
+    const widgetArray =  e.dataTransfer.getData("widgetType").split(',');
     setWidgets([...widgets, widgetType])
+    setRows(rows.filter((item) => !widgetArray.find((item1) =>  Number(item1) == item.parcel_number )))
   }
 
 
@@ -307,13 +309,13 @@ const onSelectedAll = () => {
 
     </div>
         </Box>
-        {/* <Box style={{border: '1px solid #ff0000', height: '1000px'}} onDrop={handleOnDrop} onDragOver={handleDragOver}>
+        <Box style={{border: '1px solid #ff0000', height: '1000px'}} onDrop={handleOnDrop} onDragOver={handleDragOver}>
             {widgets.map((widget, index) => (
                 <div className="dropped-widget" key={index}>
                     {widget}
                 </div>
             ))}
-  </Box> */}
+  </Box>
     </Paper>
   </Grid> 
 
