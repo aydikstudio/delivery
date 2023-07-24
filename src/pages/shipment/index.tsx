@@ -1,6 +1,6 @@
 import { Box, Button, Checkbox, Container, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import { useSelector } from "react-redux"
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -16,15 +16,47 @@ import { useDispatch } from "react-redux";
 
 function Shipment() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     let {id } = useParams();
+    const shipments = useSelector((state : any) => state.shipments)
     const [shipment, setShipment] = React.useState(useSelector((state : any) => state.shipments).find((item: any) => item.number == id))
     const procent = shipment.busy_weigh/shipment.weight*100;
     const [selectedCount, setSelectedCount] = React.useState(0);
     const [volumeCount, setVolumeCount] = React.useState(0);
     const [allCheckBox, setAllCheckBox] = React.useState(false);
 const [rows, setRows] = React.useState(useSelector((state : any) => state.parcels));
+const allParcels = useSelector((state : any) => state.parcels);
+const [widgetArrayGlobal, setWidgetArrayGlobal] =  React.useState<string[]>([]);
 
   const [widgets, setWidgets] = React.useState<string[]>([]);
+
+
+  const onFinishLoading = () => {
+    let shipment_local = shipment;
+
+   if(widgetArrayGlobal.length > 0) {
+
+    shipment_local.parcels = [allParcels.filter((item: any) => widgetArrayGlobal.find((item1) =>  Number(item1) == item.parcel_number ))];
+
+    let shipments_finish = shipments.map((item: any) => {
+     
+        if(item.number == shipment_local.number) {
+            return shipment_local;
+        } else {
+            return item
+        }
+    });
+
+
+
+ dispatch({type: 'updateparcels', payload: rows.filter((item: any) => !widgetArrayGlobal.find((item1) =>  Number(item1) == item.parcel_number )) })
+ dispatch({type: 'updateshipments', payload: shipments_finish });
+ navigate("/shipments/available");
+
+} else {
+    alert('Поставки не перетащены')
+}
+}
 
   function handleOnDrag(e: React.DragEvent) {
     e.dataTransfer.setData("widgetType", [...rows.filter((item: any) => item.checkbox == true).map((item: any) => (
@@ -34,6 +66,7 @@ const [rows, setRows] = React.useState(useSelector((state : any) => state.parcel
 
   function handleOnDrop(e: React.DragEvent, item: any) {
     const widgetArray =  e.dataTransfer.getData("widgetType").split(',');
+    setWidgetArrayGlobal(widgetArray)
     const widgetArraySumm = widgetArray.map((item) => (rows.find((item1: any) => item1.parcel_number == Number(item) ))).reduce(function (acc: any, obj: any) { return acc + obj.volume_weight; }, 0)
   
     if(shipment.busy_weigh+widgetArraySumm <= shipment.weight) {
@@ -43,7 +76,7 @@ const [rows, setRows] = React.useState(useSelector((state : any) => state.parcel
        
         setWidgets([...widgets, widgetType])
         setRows(rows.filter((item: any) => !widgetArray.find((item1) =>  Number(item1) == item.parcel_number )))
-        // dispatch({type: 'updateparcels', payload: rows.filter((item: any) => !widgetArray.find((item1) =>  Number(item1) == item.parcel_number )) })
+       
         if(item.type == 'upper') {
            shipment_obj.upper_tier.find((item1:any) => item1.upper_tier_id == item.upper_tier_id).busy = true;
            shipment_obj.busy_weigh += widgetArraySumm;
@@ -51,6 +84,20 @@ const [rows, setRows] = React.useState(useSelector((state : any) => state.parcel
             // dispatch({type: 'updateshipments', payload: rows.filter((item: any) => !widgetArray.find((item1) =>  Number(item1) == item.parcel_number )) })
         }
        
+
+        if(item.type == 'middle') {
+            shipment_obj.middle_tier.find((item1:any) => item1.middle_tier_id == item.middle_tier_id).busy = true;
+            shipment_obj.busy_weigh += widgetArraySumm;
+            setShipment(shipment_obj)
+             // dispatch({type: 'updateshipments', payload: rows.filter((item: any) => !widgetArray.find((item1) =>  Number(item1) == item.parcel_number )) })
+         }
+
+         if(item.type == 'lower') {
+            shipment_obj.lower_tier.find((item1:any) => item1.lower_tier_id == item.lower_tier_id).busy = true;
+            shipment_obj.busy_weigh += widgetArraySumm;
+            setShipment(shipment_obj)
+             // dispatch({type: 'updateshipments', payload: rows.filter((item: any) => !widgetArray.find((item1) =>  Number(item1) == item.parcel_number )) })
+         }
     }
    
   }
@@ -184,6 +231,9 @@ const showTierBox = (item: any) => {
 
 }
 
+
+
+
     return (
         <Box style={{position: 'relative', top: -100}}>
             <Box>
@@ -280,7 +330,7 @@ const showTierBox = (item: any) => {
         <Button className={'truck-button'} variant="outlined" startIcon={<WidgetsIcon />}>
   View Parcels List
 </Button>
-<Button className={'truck-button'} variant="outlined" startIcon={<LocalShippingIcon />}>
+<Button className={'truck-button'} variant="outlined" startIcon={<LocalShippingIcon />} onClick={() => onFinishLoading()}>
   Finish Loading
 </Button>
         </Box>

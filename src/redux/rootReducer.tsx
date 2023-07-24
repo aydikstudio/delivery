@@ -98,6 +98,7 @@ const initialState:initialStateInterface = {
             arrival_date: '15/10/2023',
             time_delay: '5:05 h',
             busy_weigh: 100,
+            parcels: [],
             upper_tier:[
                 {
                     upper_tier_id: 1,
@@ -189,6 +190,7 @@ const initialState:initialStateInterface = {
             arrival_date: '19/10/2023',
             time_delay: '5:05 h',
             busy_weigh: 400,
+            parcels: [],
             upper_tier:[
                 {
                     upper_tier_id: 1,
@@ -280,6 +282,7 @@ const initialState:initialStateInterface = {
             arrival_date: '15/10/2023',
             time_delay: '5:05 h',
             busy_weigh: 100,
+            parcels: [],
             upper_tier:[
                 {
                     upper_tier_id: 1,
