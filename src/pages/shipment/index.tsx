@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Container, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Box, Button, Checkbox, Container, Grid, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import { useSelector } from "react-redux"
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
@@ -12,6 +12,17 @@ import * as React from "react";
 import { useDispatch } from "react-redux";
 
 
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 
 function Shipment() {
@@ -30,13 +41,16 @@ const [widgetArrayGlobal, setWidgetArrayGlobal] =  React.useState<string[]>([]);
 
   const [widgets, setWidgets] = React.useState<string[]>([]);
 
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const onFinishLoading = () => {
     let shipment_local = shipment;
 
    if(widgetArrayGlobal.length > 0) {
 
-    shipment_local.parcels = [allParcels.filter((item: any) => widgetArrayGlobal.find((item1) =>  Number(item1) == item.parcel_number ))];
+    shipment_local.parcels = [...shipment_local.parcels, ...allParcels.filter((item: any) => widgetArrayGlobal.find((item1) =>  Number(item1) == item.parcel_number ))];
 
     let shipments_finish = shipments.map((item: any) => {
      
@@ -59,6 +73,7 @@ const [widgetArrayGlobal, setWidgetArrayGlobal] =  React.useState<string[]>([]);
 }
 
   function handleOnDrag(e: React.DragEvent) {
+    
     e.dataTransfer.setData("widgetType", [...rows.filter((item: any) => item.checkbox == true).map((item: any) => (
         item.parcel_number
     ))].join (',') )
@@ -233,6 +248,15 @@ const showTierBox = (item: any) => {
 
 
 
+  const showParcels = () => {
+    if(shipment.parcels.length > 0) {
+      handleOpen()
+    } else {
+      alert('Нет выбранных поставок')
+    }
+ 
+  }
+
 
     return (
         <Box style={{position: 'relative', top: -100}}>
@@ -327,7 +351,7 @@ const showTierBox = (item: any) => {
         </Box>
 
         <Box style={{display: 'flex', justifyContent: 'space-between', marginTop: 40}}>
-        <Button className={'truck-button'} variant="outlined" startIcon={<WidgetsIcon />}>
+        <Button className={'truck-button'} variant="outlined" startIcon={<WidgetsIcon />} onClick={showParcels} >
   View Parcels List
 </Button>
 <Button className={'truck-button'} variant="outlined" startIcon={<LocalShippingIcon />} onClick={() => onFinishLoading()}>
@@ -385,19 +409,57 @@ const showTierBox = (item: any) => {
 
     </div>
         </Box>
-        {/* <Box style={{border: '1px solid #ff0000', height: '1000px'}} onDrop={handleOnDrop} onDragOver={handleDragOver}>
-            {widgets.map((widget, index) => (
-                <div className="dropped-widget" key={index}>
-                    {widget}
-                </div>
-            ))}
-  </Box> */}
+  
     </Paper>
   </Grid> 
 
 
 </Grid>
-         
+<Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box  sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Parcels of route №{shipment.number}
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <TableContainer component={Paper}>
+      <Table aria-label="simple table">
+      <TableHead>
+          <TableRow>
+
+            <TableCell align="left">Parcel number</TableCell>
+            <TableCell align="right">Volume weight</TableCell>
+            <TableCell align="right">Admission date</TableCell> 
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {console.log(shipment.parcels)}
+          {shipment.parcels.map((item: any) => (
+            <TableRow
+              key={item.name}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+
+              <TableCell align="left">{item.parcel_number}</TableCell>
+              <TableCell align="right">{item.volume_weight}</TableCell>
+              <TableCell align="right">{item.admission_date}</TableCell>
+
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+          </Typography>
+          <Box textAlign='center' mt={5}>
+        <Button variant="outlined" onClick={handleClose}>Close</Button>
+        </Box>
+        </Box>
+     
+      </Modal>
         </Box>
     )
 }
