@@ -5,9 +5,10 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 ;
 import { BrowserRouter as Router, Routes, Route,  Link } from "react-router-dom";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import './App.scss';
-import Grid from '@mui/material/Unstable_Grid2';
+
 
 import Arrival from './pages/arrivial';
 import Available from './pages/available';
@@ -79,15 +80,24 @@ export default function App() {
         <DrawerHeader />
        
 
-       
+
       <Routes>
         <Route path="/" element={<Wrapper><Arrival /></Wrapper>} />
         <Route path="/shipments/arrival" element={<Wrapper><Arrival /></Wrapper>} />
         <Route path="/shipments/available" element={<Wrapper><Available /></Wrapper>}  />
         <Route path="/shipments/departure" element={<Wrapper><Departure /></Wrapper>} />
-        <Route path="/shipment/:id" element={<Shipment />} />
+ 
+     
+        <Route path="/shipments/:id" element={ <Shipment />} /> 
+  
+          
+        
+           
+          
+        
+     
       </Routes>
-      
+     
       </Main>
     </Box>
   );

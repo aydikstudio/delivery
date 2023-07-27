@@ -170,6 +170,7 @@ export const getProperty = (procent:number, base_width: number) => {
 let obj = {
   backgroundColor: '',
   width: base_width*(procent/100),
+  transition: 'width 0.2s ease-in-out'
 }
 if(procent >= 67) {
   obj.backgroundColor = '#f05252'

@@ -4,8 +4,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import DonutLargeIcon from '@mui/icons-material/DonutLarge';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { GridContextProvider, GridDropZone, GridItem, swap  } from "react-grid-dnd";
+import {CSSTransition} from 'react-transition-group';
 import { getColorProcent, getProperty } from "../../utils";
 import './index.scss';
 import * as React from "react";
@@ -26,6 +25,8 @@ const style = {
 
 
 function Shipment() {
+    const [show, setShow] = React.useState(false);
+    const nodeRef = React.useRef(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     let {id } = useParams();
@@ -44,6 +45,10 @@ const [widgetArrayGlobal, setWidgetArrayGlobal] =  React.useState<string[]>([]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+ React.useEffect(() => {
+    setShow(true)
+ }, [])
 
   const onFinishLoading = () => {
     let shipment_local = shipment;
@@ -259,208 +264,220 @@ const showTierBox = (item: any) => {
 
 
     return (
-        <Box style={{position: 'relative', top: -100}}>
-            <Box>
-                <span ><Link style={{color: '#737171', textDecoration: 'none'}} to='/shipments/available'>Shipments</Link> / </span><span style={{color: '#680074'}}>{id}</span>
-            </Box>
-            <Box style={{marginTop: 10}}>
-                <span style={{fontSize: 30}}>{shipment.from} - {shipment.to}, {id}</span> <span  style={{color: '#737171'}}>{shipment.arrival_date}</span>
-            </Box>
-          
-                <Grid container style={{marginTop: 20}} >
-  <Grid  xs={6} md={5}>
-    <Paper className="papper-shipment">
-        <Box style={{display: 'flex', justifyContent: 'space-between', fontSize: 20}}>
-        <Box >
-            <b style={{fontSize: 20}}>Truck load</b>
-          
-        </Box>
-        <Box>
-        <Typography variant="h4" component="div" sx={{color: getColorProcent(procent)}}> {Math.round(shipment.busy_weigh/shipment.weight*100)}% </Typography>
-        </Box>
-
-        
-        </Box>
-
-        <Box style={{display: 'flex', marginTop: 20, justifyContent: 'space-between'}}>
-        <Box >
-        <Typography component="div" variant="h6" style={{color: '#b3b3b3'}}>
-            Available,kg
-            </Typography>
-            <Typography component="div"  style={{fontSize: 20, color: '#b3b3b3'}}>
-            <span style={{color: '#000'}}>{shipment.busy_weigh}</span>/{shipment.weight}
-            </Typography>   
-          
-        </Box>
+      <div>
+       
     
-        <Box className='car-shipment' >
-            <Box className='car-container-shipment' style={getProperty(procent, 187)}>
-           
-            </Box>
-          </Box>
-        
+           <CSSTransition    in={show}
+        nodeRef={nodeRef}
+        timeout={30000}
+        classNames="alert"
+        unmountOnExit>
+ <Box style={{position: 'relative', top: -100}}  ref={nodeRef}>
+ <Box>
+     <span ><Link style={{color: '#737171', textDecoration: 'none'}} to='/shipments/available'>Shipments</Link> / </span><span style={{color: '#680074'}}>{id}</span>
+ </Box>
+ <Box style={{marginTop: 10}}>
+     <span style={{fontSize: 30}}>{shipment.from} - {shipment.to}, {id}</span> <span  style={{color: '#737171'}}>{shipment.arrival_date}</span>
+ </Box>
 
-        
-        </Box>
+     <Grid container style={{marginTop: 20}} >
+<Grid  xs={6} md={5}>
+<Paper className="papper-shipment">
+<Box style={{display: 'flex', justifyContent: 'space-between', fontSize: 20}}>
+<Box >
+ <b style={{fontSize: 20}}>Truck load</b>
 
-        <Box className={shipment.busy_weigh >= shipment.weight ? 'disabled' : ''}>
-        <Box  style={{marginTop: '20px'}} >
-            <Box  style={{display: 'flex'}}>
-        <Typography >Upper tier</Typography>
-        <DonutLargeIcon style={{color: '#b9b9b9', marginLeft: 5, marginBottom: 5}}/>
-        </Box>
-        <Box style={{display: 'flex', justifyContent: 'space-between', marginTop: '20px'}}>
-            {
-                shipment.upper_tier.map((item: any) => (
-                    showTierBox(item)
-                    ))
-            }
-         
-        </Box>
-        </Box>
-
-
-        <Box style={{marginTop: '20px'}}>
-            <Box  style={{display: 'flex'}}>
-        <Typography >Middel tier</Typography>
-        <DonutLargeIcon style={{color: '#b9b9b9', marginLeft: 5, marginBottom: 5}}/>
-        </Box>
-        <Box style={{display: 'flex', justifyContent: 'space-between', marginTop: '20px'}}>
-        {
-                shipment.middle_tier.map((item: any) =>  (
-                    showTierBox(item)
-                ))
-            }
-        </Box>
-        </Box>
+</Box>
+<Box>
+<Typography variant="h4" component="div" sx={{color: getColorProcent(procent)}}> {Math.round(shipment.busy_weigh/shipment.weight*100)}% </Typography>
+</Box>
 
 
-        <Box style={{marginTop: '20px'}}>
-            <Box  style={{display: 'flex'}}>
-        <Typography >Lower tier</Typography>
-        <DonutLargeIcon style={{color: '#b9b9b9', marginLeft: 5, marginBottom: 5}}/>
-        </Box>
-        <Box style={{display: 'flex', justifyContent: 'space-between', marginTop: '20px'}}>
-        {
-                shipment.lower_tier.map((item: any) => (
-                    showTierBox(item)
-                ))
-            }
-        </Box>
-        </Box>
-        </Box>
+</Box>
 
-        <Box style={{display: 'flex', justifyContent: 'space-between', marginTop: 40}}>
-        <Button className={'truck-button'} variant="outlined" startIcon={<WidgetsIcon />} onClick={showParcels} >
-  View Parcels List
+<Box style={{display: 'flex', marginTop: 20, justifyContent: 'space-between'}}>
+<Box >
+<Typography component="div" variant="h6" style={{color: '#b3b3b3'}}>
+ Available,kg
+ </Typography>
+ <Typography component="div"  style={{fontSize: 20, color: '#b3b3b3'}}>
+ <span style={{color: '#000'}}>{shipment.busy_weigh}</span>/{shipment.weight}
+ </Typography>   
+
+</Box>
+
+<Box className='car-shipment' >
+ <Box className='car-container-shipment' style={getProperty(procent, 187)}>
+
+ </Box>
+</Box>
+
+
+
+</Box>
+
+<Box className={shipment.busy_weigh >= shipment.weight ? 'disabled' : ''}>
+<Box  style={{marginTop: '20px'}} >
+ <Box  style={{display: 'flex'}}>
+<Typography >Upper tier</Typography>
+<DonutLargeIcon style={{color: '#b9b9b9', marginLeft: 5, marginBottom: 5}}/>
+</Box>
+<Box style={{display: 'flex', justifyContent: 'space-between', marginTop: '20px'}}>
+ {
+     shipment.upper_tier.map((item: any) => (
+         showTierBox(item)
+         ))
+ }
+
+</Box>
+</Box>
+
+
+<Box style={{marginTop: '20px'}}>
+ <Box  style={{display: 'flex'}}>
+<Typography >Middel tier</Typography>
+<DonutLargeIcon style={{color: '#b9b9b9', marginLeft: 5, marginBottom: 5}}/>
+</Box>
+<Box style={{display: 'flex', justifyContent: 'space-between', marginTop: '20px'}}>
+{
+     shipment.middle_tier.map((item: any) =>  (
+         showTierBox(item)
+     ))
+ }
+</Box>
+</Box>
+
+
+<Box style={{marginTop: '20px'}}>
+ <Box  style={{display: 'flex'}}>
+<Typography >Lower tier</Typography>
+<DonutLargeIcon style={{color: '#b9b9b9', marginLeft: 5, marginBottom: 5}}/>
+</Box>
+<Box style={{display: 'flex', justifyContent: 'space-between', marginTop: '20px'}}>
+{
+     shipment.lower_tier.map((item: any) => (
+         showTierBox(item)
+     ))
+ }
+</Box>
+</Box>
+</Box>
+
+<Box style={{display: 'flex', justifyContent: 'space-between', marginTop: 40}}>
+<Button className={'truck-button'} variant="outlined" startIcon={<WidgetsIcon />} onClick={showParcels} >
+View Parcels List
 </Button>
 <Button className={'truck-button'} variant="outlined" startIcon={<LocalShippingIcon />} onClick={() => onFinishLoading()}>
-  Finish Loading
+Finish Loading
 </Button>
-        </Box>
-    </Paper>
-  
-  </Grid>
-  <Grid  xs={1} md={0.3}>
- 
-  </Grid>
-  <Grid  xs={6} md={5}>
-  <Paper className="papper-shipment">
-  <Box style={{display: 'flex', fontSize: 20}}>
-        <Box >
-            <b style={{fontSize: 20}}>Available packages</b>
-          
-        </Box>
-        <Box style={{display: 'flex', fontSize: 16, marginTop: 5, marginLeft: 10, color: '#b3b3b3'}}>
-            <Box style={{marginRight: 5}}>
-                Selected:<span style={{color: '#6015f9'}}>{selectedCount}</span>
-            </Box>
+</Box>
+</Paper>
 
-            <Box>
-                Weight, kg:<span style={{color: '#6015f9'}}>{volumeCount}</span>
-            </Box>
-        </Box>
+</Grid>
+<Grid  xs={1} md={0.3}>
 
-        
-        </Box>
+</Grid>
+<Grid  xs={6} md={5}>
+<Paper className="papper-shipment">
+<Box style={{display: 'flex', fontSize: 20}}>
+<Box >
+ <b style={{fontSize: 20}}>Available packages</b>
 
-        <Box>
-        <div style={{ marginTop: 40, height: 800, width: '100%' }}>
+</Box>
+<Box style={{display: 'flex', fontSize: 16, marginTop: 5, marginLeft: 10, color: '#b3b3b3'}}>
+ <Box style={{marginRight: 5}}>
+     Selected:<span style={{color: '#6015f9'}}>{selectedCount}</span>
+ </Box>
 
-        <TableContainer component={Paper}>
-      <Table  size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell><Checkbox  onClick={() => onSelectedAll()}/></TableCell>
-            <TableCell align="left">Parcel number</TableCell>
-            <TableCell align="right">Volume weight</TableCell>
-            <TableCell align="right">Admission date</TableCell> 
-          </TableRow>
-        </TableHead>
-        <TableBody>
- 
-          {rows.map((row: any) => (
-             showRow(row)
-          ))}
-   
-        </TableBody>
-      </Table>
-    </TableContainer>
+ <Box>
+     Weight, kg:<span style={{color: '#6015f9'}}>{volumeCount}</span>
+ </Box>
+</Box>
 
-    </div>
-        </Box>
-  
-    </Paper>
-  </Grid> 
+
+</Box>
+
+<Box>
+<div style={{ marginTop: 40, height: 800, width: '100%' }}>
+
+<TableContainer component={Paper}>
+<Table  size="small" aria-label="a dense table">
+<TableHead>
+<TableRow>
+ <TableCell><Checkbox  onClick={() => onSelectedAll()}/></TableCell>
+ <TableCell align="left">Parcel number</TableCell>
+ <TableCell align="right">Volume weight</TableCell>
+ <TableCell align="right">Admission date</TableCell> 
+</TableRow>
+</TableHead>
+<TableBody>
+
+{rows.map((row: any) => (
+  showRow(row)
+))}
+
+</TableBody>
+</Table>
+</TableContainer>
+
+</div>
+</Box>
+
+</Paper>
+</Grid> 
 
 
 </Grid>
 <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box  sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Parcels of route №{shipment.number}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          <TableContainer component={Paper}>
-      <Table aria-label="simple table">
-      <TableHead>
-          <TableRow>
+open={open}
+onClose={handleClose}
+aria-labelledby="modal-modal-title"
+aria-describedby="modal-modal-description"
+>
+<Box  sx={style}>
+<Typography id="modal-modal-title" variant="h6" component="h2">
+ Parcels of route №{shipment.number}
+</Typography>
+<Typography id="modal-modal-description" sx={{ mt: 2 }}>
+<TableContainer component={Paper}>
+<Table aria-label="simple table">
+<TableHead>
+<TableRow>
 
-            <TableCell align="left">Parcel number</TableCell>
-            <TableCell align="right">Volume weight</TableCell>
-            <TableCell align="right">Admission date</TableCell> 
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {console.log(shipment.parcels)}
-          {shipment.parcels.map((item: any) => (
-            <TableRow
-              key={item.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
+ <TableCell align="left">Parcel number</TableCell>
+ <TableCell align="right">Volume weight</TableCell>
+ <TableCell align="right">Admission date</TableCell> 
+</TableRow>
+</TableHead>
+<TableBody>
+{console.log(shipment.parcels)}
+{shipment.parcels.map((item: any) => (
+ <TableRow
+   key={item.name}
+   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+ >
 
-              <TableCell align="left">{item.parcel_number}</TableCell>
-              <TableCell align="right">{item.volume_weight}</TableCell>
-              <TableCell align="right">{item.admission_date}</TableCell>
+   <TableCell align="left">{item.parcel_number}</TableCell>
+   <TableCell align="right">{item.volume_weight}</TableCell>
+   <TableCell align="right">{item.admission_date}</TableCell>
 
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-          </Typography>
-          <Box textAlign='center' mt={5}>
-        <Button variant="outlined" onClick={handleClose}>Close</Button>
-        </Box>
-        </Box>
-     
-      </Modal>
-        </Box>
+ </TableRow>
+))}
+</TableBody>
+</Table>
+</TableContainer>
+</Typography>
+<Box textAlign='center' mt={5}>
+<Button variant="outlined" onClick={handleClose}>Close</Button>
+</Box>
+</Box>
+
+</Modal>
+</Box>
+</CSSTransition>
+       
+
+        </div>
     )
 }
 

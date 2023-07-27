@@ -18,7 +18,7 @@ function AvailableTransportCard(item1: any) {
        
 
     return (
-   <Link to={`/shipment/${item.number}`} style={{textDecoration: 'none'}}>
+   <Link to={`/shipments/${item.number}`} style={{textDecoration: 'none'}}>
       <Card className='car-block' sx={{padding: 3}}>
         {item && (
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
