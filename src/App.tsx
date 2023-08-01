@@ -18,6 +18,7 @@ import ToolbarBlock from './components/toolbar';
 import Sidebar from './components/sidebar';
 import Departure from './pages/departure';
 import Shipment from './pages/shipment';
+import Dashboard from './pages/dashboard';
 
 
 
@@ -89,7 +90,7 @@ export default function App() {
  
      
         <Route path="/shipments/:id" element={ <Shipment />} /> 
-  
+        <Route path="/dashboard" element={ <Wrapper><Dashboard /></Wrapper>} /> 
           
         
            

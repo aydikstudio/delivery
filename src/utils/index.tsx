@@ -184,3 +184,5 @@ if(procent >= 67) {
 return obj
 
 }
+
+

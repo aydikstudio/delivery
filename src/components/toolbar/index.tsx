@@ -100,7 +100,7 @@ function ToolbarBlock() {
             <AppBar position="fixed"
                 open={open}
                 className="appbar">
-                qsqw
+                
                 <Toolbar sx={
                     {
                         display: 'flex',

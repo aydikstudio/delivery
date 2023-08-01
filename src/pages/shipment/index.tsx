@@ -6,6 +6,7 @@ import WidgetsIcon from '@mui/icons-material/Widgets';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import {CSSTransition} from 'react-transition-group';
 import { getColorProcent, getProperty } from "../../utils";
+
 import './index.scss';
 import * as React from "react";
 import { useDispatch } from "react-redux";
@@ -21,11 +22,35 @@ const style = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
-};
+}
+
+
+
+
+
+  
+
+
 
 
 function Shipment() {
+
+  const [cloudInfo, setCloudInfo] = React.useState({
+    zIndex: '1000',
+    width: '250px',
+    height: '60px',
+    backgroundColor: '#fff',
+    display: 'flex',
+    justifyContent: 'space-around',
+    pointerEvents: 'none'
+  });
+
+  const [cursorPosition, setCursorPosition] = React.useState({ top: 0, left: 0 })
+
+
+  const [cloud, setCloud] = React.useState(false);
     const [show, setShow] = React.useState(false);
+ 
     const nodeRef = React.useRef(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -45,6 +70,9 @@ const [widgetArrayGlobal, setWidgetArrayGlobal] =  React.useState<string[]>([]);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+
+  
 
  React.useEffect(() => {
     setShow(true)
@@ -82,9 +110,17 @@ const [widgetArrayGlobal, setWidgetArrayGlobal] =  React.useState<string[]>([]);
     e.dataTransfer.setData("widgetType", [...rows.filter((item: any) => item.checkbox == true).map((item: any) => (
         item.parcel_number
     ))].join (',') )
+
+    var img = new Image();
+    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=';
+    e.dataTransfer.setDragImage(img, 0, 0);
+
+    setCloud(true)
   }
 
   function handleOnDrop(e: React.DragEvent, item: any) {
+       
+    setCloud(false)
     const widgetArray =  e.dataTransfer.getData("widgetType").split(',');
     setWidgetArrayGlobal(widgetArray)
     const widgetArraySumm = widgetArray.map((item) => (rows.find((item1: any) => item1.parcel_number == Number(item) ))).reduce(function (acc: any, obj: any) { return acc + obj.volume_weight; }, 0)
@@ -119,12 +155,20 @@ const [widgetArrayGlobal, setWidgetArrayGlobal] =  React.useState<string[]>([]);
              // dispatch({type: 'updateshipments', payload: rows.filter((item: any) => !widgetArray.find((item1) =>  Number(item1) == item.parcel_number )) })
          }
     }
-   
+
   }
 
 
 
+function handleOnLeave(e: React.DragEvent) {
+  setCloud(false)
+
+  e.preventDefault()
+}
+
+
   function handleDragOver(e: React.DragEvent) {
+   
     e.preventDefault()
   }
 
@@ -160,7 +204,8 @@ const checkRow = (id: number, checkbox: boolean) => {
        
 
 
-
+const onMouseMove = (e:any) =>
+    setCursorPosition({ top: e.screenY-100, left: e.screenX-100 });
 
 
 
@@ -171,7 +216,7 @@ const showRow = (row: any) => {
 
     if(row.checkbox) {
         return(
-            <TableRow key={row.parcel_number} draggable onDragStart={(e) => handleOnDrag(e)}>
+            <TableRow key={row.parcel_number} draggable onDragStart={(e) => handleOnDrag(e)} onDragEnd={(e) => handleOnLeave(e)}>
             <TableCell><Checkbox  checked={true} onClick={() => checkRow(row.parcel_number, row.checkbox)} /></TableCell>
             <TableCell align="left">{row.parcel_number}</TableCell>
             <TableCell align="right">{row.volume_weight}</TableCell>
@@ -180,7 +225,7 @@ const showRow = (row: any) => {
         )
     } else {
         return(
-            <TableRow key={row.parcel_number} onDragStart={(e) => handleOnDrag(e)}>
+            <TableRow key={row.parcel_number} onDragStart={(e) => handleOnDrag(e)} onDragEnd={(e) => handleOnLeave(e)}>
             <TableCell><Checkbox checked={false} onClick={() => checkRow(row.parcel_number, row.checkbox)} /></TableCell>
             <TableCell align="left">{row.parcel_number}</TableCell>
             <TableCell align="right">{row.volume_weight}</TableCell>
@@ -232,7 +277,7 @@ const showTierBox = (item: any) => {
                 )
             } else {
                 return (
-                    <Box className='tier-box tier-box-available' onDrop={(e) => handleOnDrop(e, item)} onDragOver={handleDragOver}>
+                    <Box className='tier-box tier-box-available'  onDrop={(e) => handleOnDrop(e, item)} onDragOver={handleDragOver}>
                
                     </Box>
                 )
@@ -263,9 +308,23 @@ const showTierBox = (item: any) => {
   }
 
 
+
+  
+
     return (
-      <div>
+      <div onDrag={onMouseMove} >
        
+       {cloud && (
+      
+  <Box  sx={cloudInfo}  style={{position: 'absolute', ...cursorPosition }}>
+    
+  <div><img src="/images/shipment_icon.png" style={{width: 25, position: 'relative', top: 15, left: 5}}/></div>
+  <div style={{ position: 'relative',  top: -15}}><div><p><b>{selectedCount} parcels</b></p></div>
+  <div  style={{ position: 'relative',  top: -15}}><p>Total weight: {volumeCount}kg</p></div></div> 
+
+ </Box>
+       )}
+     
     
            <CSSTransition    in={show}
         nodeRef={nodeRef}
@@ -450,7 +509,7 @@ aria-describedby="modal-modal-description"
 </TableRow>
 </TableHead>
 <TableBody>
-{console.log(shipment.parcels)}
+
 {shipment.parcels.map((item: any) => (
  <TableRow
    key={item.name}
