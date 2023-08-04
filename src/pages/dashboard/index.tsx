@@ -4,11 +4,97 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import LinearProgress from '@mui/material/LinearProgress';
+import Drawer from '@mui/material/Drawer';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import * as React from 'react';
+import {SemiCircleProgressBarNew, GetMap, Avatar_new} from '../../utils/utils'
+
 import './index.scss';
 
 function Dashboard() {
+  const [state, setState] = React.useState({
 
-  const shipments = useSelector((state : any) => state.shipments).filter((item:any) => item.status == 'delayed')
+    right: true,
+  });
+
+  const toggleDrawer =
+    (anchor: any, open: boolean) =>
+    (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
+
+      setState({ ...state, [anchor]: open });
+    };
+
+  const list = (anchor: any  ) => (
+    <Box
+    className="css-1160xiw-MuiPaper-root-MuiDrawer-paper"
+      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 450 }}
+      role="presentation"
+
+      onKeyDown={toggleDrawer(anchor, false)}
+    >
+      <Box >
+        <Box className={'drawer-close'}  onClick={toggleDrawer(anchor, false)}><span>x</span></Box>
+      </Box>
+      
+
+      <Box >
+        <h3>Valencia-Barcelona, B435324</h3>
+      </Box>
+
+    <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+      <Box>
+       <p className='drawer-header-zagalovok'>Departure date</p>
+       <p className='drawer-header-date'>10 Jun, 8:00 AM</p>
+      </Box>
+
+      <Box>
+      <p className='drawer-header-zagalovok'>Departure date</p>
+       <p className='drawer-header-date'>14 Jun, 8:00 AM</p>
+      </Box>
+
+      <Box>
+      <p className='drawer-header-zagalovok'>Departure date</p>
+       <p className='drawer-header-date' style={{color: 'red'}}>2:05 h</p>
+      </Box>
+    </Box>
+
+    <Box sx={{margin: '20px auto'}}>
+      <Box >
+      <GetMap />
+      </Box>
+    
+    </Box>
+
+    <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+      <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+      <Box>
+       <Avatar_new />
+      </Box>
+
+      <Box sx={{marginLeft: 2, marginTop: -2}}>
+        <p><b>Wim Mostmans</b></p>
+        <p style={{marginTop: -15, color: 'rgb(141, 141, 141)'}}>Driver</p>
+      </Box>
+      </Box>
+
+
+      <Box>
+        <div style={{ borderRadius: '50px', padding: '8px', backgroundColor: 'rgb(246, 246, 246)'}}>
+        <ChatBubbleOutlineIcon style={{fontSize: '20px', textAlign: 'center', verticalAlign: 'middle'}} />
+        </div>
+      </Box>
+    </Box>
+    </Box>
+  );
+  const shipments = useSelector((state : any) => state.shipments).filter((item:any) => item.status == 'delayed').slice(0,3)
 
   return (
     <div>
@@ -64,7 +150,7 @@ function Dashboard() {
 
       <Grid container spacing={2} mt={2}>
        
-       <Grid xs={6}>
+       <Grid xs={6} onClick={toggleDrawer('right', true)}>
        <Paper className='block_statistic_second'>
          <Box className='block_header'>
           <div>
@@ -108,8 +194,43 @@ function Dashboard() {
        </Grid>
 
        <Grid xs={6}>
-       <Paper>
-        w 
+       <Paper className='block_statistic_second'>
+         <Box className='block_header'>
+          <div style={{display: 'flex', alignItems: 'center'}}>
+          <h2>Daily plan</h2><span style={{marginLeft: '20px', color: 'rgb(107, 106, 106)'}}> Wed 15 Jun</span>
+          </div>
+          <div>
+          <Link to="/" className='block_link_menu'>...</Link>
+          </div>
+         </Box>
+         <Box mt={3} style={{display: 'flex', justifyContent: 'space-between'}}>
+          <Box>
+            <Box className='daily_info'>
+              <h4>Shipment processed</h4>
+              <p>1010<span>/2020</span></p>
+            </Box>
+            <Box className='daily_info'>
+              <h4>Orders processed</h4>
+              <p>650<span>/2020</span></p>
+            </Box>
+            <Box className='daily_info'>
+              <h4>Request considered</h4>
+              <p>10<span>/20</span></p>
+            </Box>
+          </Box>
+
+
+          <Box>
+            <Box style={{position: 'relative', right: 100, top: 30}}><SemiCircleProgressBarNew />
+            <div  style={{width: 25, position: 'relative', left: 130, top: -50}}>
+            <div className={'block-img-circle'} style={{ position: 'relative',  top: -50, left: -15}}><img src='/images/ok.png' /></div>
+            <div style={{ fontSize: 30, position: 'relative', top: -30, left: -5, color: '#02B732' }}>33%</div>
+          </div>
+          
+            </Box>
+          
+          </Box>
+         </Box>
        </Paper>
        </Grid>
     
@@ -120,20 +241,68 @@ function Dashboard() {
 
      <Grid container spacing={2} mt={2}>
        
-       <Grid xs={6}>
-       <Paper >
-         w
+       <Grid xs={6} >
+       <Paper className='block_statistic_second'>
+       <Box className='block_header'>
+          <div>
+          <h2>Available trucks</h2>
+          </div>
+          <div>
+          <Link to="/" className='block_link'>Show all &gt;  </Link>
+          </div>
+         </Box>
+         <Box>
+          <Box className={'available-block'}>
+            <Box>
+              <p><b>V563232</b></p>
+              <p style={{marginTop: -10, color: '#bdbbbb'}}>Barcelona-Valencia</p>
+            </Box>
+
+            <Box sx={{ marginTop: -5,width: '40%' }}>
+              <p style={{textAlign: 'right'}}><span style={{color: '#f92c2c'}}>90</span><span style={{color: '#c2c2c2'}}>/100%</span></p>
+      <LinearProgress color="error" variant="determinate" value={20} sx={{backgroundColor: '#f0f0f0'}}/>
+    </Box>
+          </Box>
+         </Box>
        </Paper>
        </Grid>
 
        <Grid xs={6}>
-       <Paper>
-        w 
+       <Paper className='block_statistic_second'>
+       <Box className='block_header'>
+          <div>
+          <h2>Available trucks</h2>
+          </div>
+          <div>
+          <Link to="/" className='block_link'>Show all &gt;  </Link>
+          </div>
+         </Box>
+
+          <Box mt={3} style={{display: 'flex', justifyContent: 'space-between', borderBottom: '2px solid #FAF9FC'}}>
+            <Box style={{display: 'flex', justifyContent: 'space-between'}}>
+              <div style={{ position: 'relative', width: '60px', height: '60px', backgroundColor: '#FAF9FC', borderRadius: '50px'}}>
+              <img src='./images/shipment_icon.png' style={{ position: 'absolute', top: '25%', left: '25%', width: '30px', height: '30px'}}/>
+              </div>
+              <div style={{marginTop: -10, marginLeft: 20}}>
+                <p ><b>Parcel redirection</b></p>
+                <p style={{marginTop: -10, color: '#bdbbbb'}}>Destination Valencia-Barcelona</p>
+              </div>
+            </Box>
+            <Box>
+            <p style={{color: '#bdbbbb'}}>1 min ago</p>
+            </Box>
+          </Box>
        </Paper>
        </Grid>
     
      </Grid>
-     
+     <Drawer
+            anchor={'right'}
+            open={state['right']}
+            onClose={toggleDrawer('right', false)}
+          >
+            {list('right')}
+          </Drawer>
     </Box>
     </div>
   )

@@ -52,3 +52,71 @@
     color: #722dfd;
     font-weight: 500;
 }
+
+
+.block_link_menu {
+    text-decoration: none;
+    color: rgb(107, 106, 106);
+    font-size: 20px
+}
+
+.daily_info {
+    h4, span {
+        color: rgb(107, 106, 106);
+    }
+    p {
+       margin-top: -15px;
+    }
+}
+
+.block-img-circle {
+    width: 60px;
+    height: 60px;
+    background-color: #FAF9FC;
+    border-radius: 50px;
+    img {
+        width: 40px;
+        position: absolute;
+        left: 7px;
+        top: 7px;
+
+    }
+}
+
+
+.available-block {
+    display: flex;
+    justify-content: space-between;
+   align-items: center;
+}
+
+.css-1160xiw-MuiPaper-root-MuiDrawer-paper {
+    border-radius: 20px 0 0 20px;
+    padding: 20px;
+}
+
+
+.drawer-close {
+    font-size: 13px; 
+    background-color: #FAF9FC;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 100px;
+    cursor: pointer;
+}
+
+.drawer-close span{
+    position: relative;
+    top: 3px;
+}
+
+.drawer-header-zagalovok {
+    font-size: 12px;
+    color: rgb(141, 141, 141);
+}
+
+.drawer-header-date {
+    font-size: 13px;
+    margin-top: -10px;
+}
