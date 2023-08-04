@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -8,7 +8,10 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Drawer from '@mui/material/Drawer';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import * as React from 'react';
+import {Timeline, TimelineItem, TimelineSeparator, TimelineConnector, TimelineContent, TimelineDot } from '@mui/lab';
 import {SemiCircleProgressBarNew, GetMap, Avatar_new} from '../../utils/utils'
+import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
+import  { timelineItemClasses } from '@mui/lab/TimelineItem';
 
 import './index.scss';
 
@@ -91,6 +94,57 @@ function Dashboard() {
         <ChatBubbleOutlineIcon style={{fontSize: '20px', textAlign: 'center', verticalAlign: 'middle'}} />
         </div>
       </Box>
+    </Box>
+
+    <Box sx={{ backgroundColor: 'rgb(246, 246, 246)'}} >
+<Timeline 
+sx={{
+  [`& .${timelineItemClasses.root}:before`]: {
+    flex: 0,
+    padding: 0,
+    marginLeft: 5
+  },
+}}
+    >
+      <TimelineItem>
+        <TimelineSeparator >
+          <TimelineDot variant="outlined"/>
+          <TimelineConnector />
+        </TimelineSeparator>
+        <TimelineContent >
+          Arrived
+          <p style={{position: 'relative', top: '-20px', color: 'rgb(141, 141, 141)'}}>On way...</p>
+          </TimelineContent>
+      </TimelineItem>
+      <TimelineItem>
+        <TimelineSeparator>
+          <TimelineDot color="success" />
+          <TimelineConnector sx={{ bgcolor: 'success.main' }}/>
+        </TimelineSeparator>
+        <TimelineContent>Shipped from Valencia
+        <p style={{position: 'relative', top: '-20px', color: 'rgb(141, 141, 141)'}}>12 jun, 08:00 pm</p>
+        </TimelineContent>
+      
+      </TimelineItem>
+      <TimelineItem>
+        <TimelineSeparator>
+          <TimelineDot color="success" />
+          <TimelineConnector sx={{ bgcolor: 'success.main' }}/>
+        </TimelineSeparator>
+        <TimelineContent>Arrived in Madrid <p style={{position: 'relative', top: '-20px', color: 'rgb(141, 141, 141)'}}>10 jun, 08:00 pm</p></TimelineContent>
+       
+      </TimelineItem>
+      <TimelineItem>
+        <TimelineSeparator >
+          <TimelineDot color="success" />
+        </TimelineSeparator>
+        <TimelineContent>Shipped from Seville <p style={{position: 'relative', top: '-20px', color: 'rgb(141, 141, 141)'}}>09 jun, 08:00 pm</p></TimelineContent>
+       
+      </TimelineItem>
+      
+    </Timeline>
+
+    <Button className={'button_call'} variant="contained" sx={{width: '100%', textTransform: 'capitalize'}}><CallOutlinedIcon className={'button_call_icon'}/> Call the driver</Button>
     </Box>
     </Box>
   );

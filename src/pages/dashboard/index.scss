@@ -93,6 +93,7 @@
 .css-1160xiw-MuiPaper-root-MuiDrawer-paper {
     border-radius: 20px 0 0 20px;
     padding: 20px;
+    overflow-x: hidden;
 }
 
 
@@ -119,4 +120,15 @@
 .drawer-header-date {
     font-size: 13px;
     margin-top: -10px;
+}
+
+.button_call_icon {
+    position: relative;
+    right: 10px;
+}
+
+.button_call {
+    position: relative;
+    top: -40px;
+    background-color: #722dfd !important;
 }
