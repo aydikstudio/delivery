@@ -18,7 +18,7 @@ import './index.scss';
 function Dashboard() {
   const [state, setState] = React.useState({
 
-    right: true,
+    right: false,
   });
 
   const toggleDrawer =
